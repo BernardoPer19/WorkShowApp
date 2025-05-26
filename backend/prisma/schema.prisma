@@ -7,3 +7,95 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model categories {
+    category_d String     @id @db.Uuid
+    name       String     @db.VarChar
+    projects   projects[]
+}
+
+model collection_projects {
+    collection_id String      @id @db.Uuid
+    project_id    String      @db.Uuid
+    collections   collections @relation(fields: [collection_id], references: [collection_id], onDelete: NoAction, onUpdate: NoAction)
+    projects      projects    @relation(fields: [project_id], references: [project_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model collections {
+    collection_id       String               @id @db.Uuid
+    name_collection     String               @db.VarChar(50)
+    description         String
+    user_id             String               @db.Uuid
+    createCollection_at String               @db.Uuid
+    collection_projects collection_projects?
+    users               users                @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "llaveForanea")
+}
+
+model commets {
+    commet_id  String    @id(map: "likes_pkey") @db.Uuid
+    content    String
+    user_id    String    @db.Uuid
+    project_id String    @db.Uuid
+    created_at DateTime? @db.Timestamptz(6)
+    projects   projects  @relation(fields: [project_id], references: [project_id], onDelete: NoAction, onUpdate: NoAction)
+    users      users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fkeyCommets")
+}
+
+model follows {
+    follewer_id                       String   @id @db.Uuid
+    following_id                      String   @db.Uuid
+    create_at                         DateTime @db.Timestamptz(6)
+    users_follows_follewer_idTousers  users    @relation("follows_follewer_idTousers", fields: [follewer_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "follower_id")
+    users_follows_following_idTousers users    @relation("follows_following_idTousers", fields: [following_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "following_id")
+}
+
+model likes {
+    user_id        String   @id(map: "likes_pkey1") @db.Uuid
+    project_id     String   @db.Uuid
+    createdLike_at DateTime @db.Timestamptz(6)
+    projects       projects @relation(fields: [project_id], references: [project_id], onDelete: NoAction, onUpdate: NoAction)
+    users          users    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model project_media {
+    media__id  String   @id @map("media_:id") @db.Uuid
+    project_id String   @db.Uuid
+    type       String   @db.VarChar(50)
+    url        String   @db.VarChar(200)
+    order      Int
+    projects   projects @relation(fields: [project_id], references: [project_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model projects {
+    project_id          String                @id @db.Uuid
+    title               String                @db.VarChar(50)
+    description         String                @db.VarChar(250)
+    user_id             String                @db.Uuid
+    category_id         String                @db.Uuid
+    demo_url            String                @db.VarChar(200)
+    createProject_at    DateTime              @db.Timetz(6)
+    collection_projects collection_projects[]
+    commets             commets[]
+    likes               likes[]
+    project_media       project_media[]
+    categories          categories            @relation(fields: [category_id], references: [category_d], onDelete: NoAction, onUpdate: NoAction)
+    users               users                 @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+    user_id        String   @id @default(uuid()) @db.Uuid
+    username       String   @db.VarChar(50)
+    email          String   @db.VarChar(50)
+    password       String   @db.VarChar(100)
+    bio            String?  @default("")
+    avatar_url     String?  @default("") @db.VarChar(200)
+    portafolio_url String?  @default("") @db.VarChar(200)
+    profession     String?  @db.VarChar(30)
+    created_at     DateTime @default(now()) @db.Timestamptz(6)
+
+    collections                         collections[]
+    commets                             commets[]
+    follows_follows_follewer_idTousers  follows?      @relation("follows_follewer_idTousers")
+    follows_follows_following_idTousers follows[]     @relation("follows_following_idTousers")
+    likes                               likes?
+    projects                            projects[]
+}
