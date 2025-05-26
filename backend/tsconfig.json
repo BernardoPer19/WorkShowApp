@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "dist",
 
     "target": "ES2020",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "outDir": "dist",
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+"module": "commonjs",
+"moduleResolution": "node",
 
     "strict": true,
     "strictNullChecks": true,
@@ -19,8 +22,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "isolatedModules": true,
@@ -30,7 +31,7 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["*"],
-      "@config/*": ["src/config/*"],
+      "@config/*": ["config/*"],
       "@features/*": ["feature/*"],
       "@middlewares/*": ["middlewares/*"],
       "@types/*": ["types/*"],
