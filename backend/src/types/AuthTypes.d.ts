@@ -1,4 +1,4 @@
-interface UserType {
+export interface UserType {
   user_id: string;
   username: string;
   email: string;
@@ -10,9 +10,9 @@ interface UserType {
   portafolio_url?: string;
 }
 
-type registerUserType = Pick<
+export type registerUserType = Pick<
   UserType,
   "username" | "email" | "password" | "created_at" | "profession" | "user_id"
 >;
 
-type loginUserType = Pick<UserType, "email" | "password" | "username">;
+export type loginUserType = Pick<UserType, "email" | "password" | "username">;
