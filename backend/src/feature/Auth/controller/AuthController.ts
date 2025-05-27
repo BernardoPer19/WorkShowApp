@@ -1,6 +1,7 @@
 import { CookieOptions, Request, Response } from "express";
 import { validateLogin, validateRegister } from "../schemas/AuthSchea";
 import { AuthService } from "../service/RegisterUser";
+import { UserType } from "@/types/AuthTypes";
 
 export class AuthController {
   static async registerUser(req: Request, res: Response) {
@@ -37,5 +38,34 @@ export class AuthController {
         message: "El usuario inició sesión con éxito!",
         bienvenida: `Bienvenido!! ${validatedData.email}`,
       });
+  };
+
+  static async logoutController(_req: Request, res: Response) {
+    res.clearCookie("access_token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+    res.status(200).send({ message: "Sesión cerrada correctamente" });
+  }
+
+  static async protectedRoute(req: Request, res: Response) {
+    const user = req.user as UserType;
+
+    if (!user) {
+      res
+        .status(400)
+        .json({ message: "Cuenta no autorizada para esta accion" });
+    }
+    return res.status(200).json({ message: "Usuario autorizado", user });
+  }
+
+  static getCurrentUser = (req: Request, res: Response) => {
+    try {
+      const user = req.user;
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener usuario actual" });
+    }
   };
 }
