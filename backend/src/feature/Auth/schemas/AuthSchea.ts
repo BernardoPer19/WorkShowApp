@@ -12,7 +12,23 @@ export const RegisterSchema = z.object({
     .optional(),
 });
 
+const LoginSchema = z.object({
+  username: z
+    .string()
+    .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
+  email: z.string().email("Email no válido"),
+  password: z
+    .string()
+    .min(6, "La contraseña debe tener al menos 6 caracteres"),
+});
+
 export type RegisterTypeSchema = z.infer<typeof RegisterSchema>;
+
+export type LoginType = z.infer<typeof LoginSchema>;
+
+export const validateLogin = (input: unknown): LoginType => {
+  return LoginSchema.parse(input);
+};
 
 export const validateRegister = (input: unknown): RegisterTypeSchema => {
   const result = RegisterSchema.safeParse(input);
