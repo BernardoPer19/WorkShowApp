@@ -1,4 +1,3 @@
-import { bufferToUUID, uuidToBuffer } from "../utils/transformBuffer";
 import { ProjectType, CreateProjectType } from "../types/projects";
 import { prisma } from "@/config/prisma";
 
@@ -9,7 +8,7 @@ export const getProjectThatUser = async () => {
     throw new Error("Proyecto no encontrado");
   }
 
-  return project 
+  return project;
 };
 
 export const createProject = async (
@@ -19,18 +18,21 @@ export const createProject = async (
     data: {
       title: input.title,
       description: input.description,
-      user_id: uuidToBuffer(input.user_id!),
-      category_id: uuidToBuffer(input.category_id!),
+      user_id: input.user_id!,
+      category_id: input.category_id!,
       created_at: input.created_at,
+      demo_url: input.demo_url!, // Add this line to provide demo_url
+      // project_id is usually auto-generated, so it's not included here
     },
   });
+
   return {
-    id: bufferToUUID(Buffer.from(project.id)),
+    id: project.project_id,
     title: project.title!,
     description: project.description!,
-    user_id: bufferToUUID(Buffer.from(project.user_id!)),
-    category_id: bufferToUUID(Buffer.from(project.category_id!)),
+    user_id: project.user_id!,
+    category_id: project.category_id!,
     demo_url: project.demo_url!,
-    created_at: project.created_at!,
+    created_at : project.created_at!
   };
-};   
+};

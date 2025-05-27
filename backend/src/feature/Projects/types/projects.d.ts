@@ -1,4 +1,4 @@
-export interface ProjectType {
+export type ProjectType = {
   id: string;
   title: string;
   description: string;
@@ -6,6 +6,6 @@ export interface ProjectType {
   category_id: string;
   demo_url: string;
   created_at: Date;
-}
+};
 
 export type CreateProjectType = Omit<ProjectType, "id">;
