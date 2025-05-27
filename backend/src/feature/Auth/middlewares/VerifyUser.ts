@@ -6,7 +6,7 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.access_token;
 
   if (!token) {
-    return res
+     res
       .status(401)
       .json({ message: "No autorizado: Token no proporcionado" });
   }
@@ -19,6 +19,6 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
     req.user = decoded;
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Token inválido o expirado" });
+     res.status(401).json({ message: "Token inválido o expirado" });
   }
 };
