@@ -1,13 +1,13 @@
 import express from "express";
-import { AuthController } from "./feature/Auth/controller/AuthController";
 import dotenv from "dotenv";
+import { AuthRouter } from "./feature/Auth/routes/Auth.routes";
 
 const app = express();
 app.use(express.json());
 dotenv.config();
 
-app.post("/register", AuthController.registerUser);
-app.post("/login", AuthController.loginUser);
+app.use("/", AuthRouter);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

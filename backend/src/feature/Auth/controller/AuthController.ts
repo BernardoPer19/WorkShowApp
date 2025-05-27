@@ -57,7 +57,7 @@ export class AuthController {
         .status(400)
         .json({ message: "Cuenta no autorizada para esta accion" });
     }
-    return res.status(200).json({ message: "Usuario autorizado", user });
+    res.status(200).json({ message: "Usuario autorizado", user });
   }
 
   static getCurrentUser = (req: Request, res: Response) => {
