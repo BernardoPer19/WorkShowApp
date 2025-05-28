@@ -1,10 +1,15 @@
 import express from "express";
 import { AuthController } from "./feature/Auth/controller/AuthController";
 import dotenv from "dotenv";
+import { projectRoute } from "./feature/Projects/routes/projects.routes";
+import cookieParser from "cookie-parser";
+dotenv.config();
 
 const app = express();
 app.use(express.json());
-dotenv.config();
+app.use(cookieParser())
+
+app.use("/project" , projectRoute);
 
 app.post("/register", AuthController.registerUser);
 app.post("/login", AuthController.loginUser);
