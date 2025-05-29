@@ -2,6 +2,7 @@ import { CookieOptions, Request, Response } from "express";
 import { validateLogin, validateRegister } from "../schemas/AuthSchea";
 import { AuthService } from "../service/RegisterUser";
 import { UserType } from "@/types/AuthTypes";
+import { createToken } from "../utils/AuthUtils";
 
 export class AuthController {
   static async registerUser(req: Request, res: Response) {
@@ -19,11 +20,13 @@ export class AuthController {
   static loginUser = async (req: Request, res: Response) => {
     const validatedData = validateLogin(req.body);
 
-    const token = await AuthService.LoginService(
+    const user = await AuthService.LoginService(
       validatedData.email,
       validatedData.password
     );
 
+    const token = createToken(user) 
+ 
     const options: CookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
