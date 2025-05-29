@@ -5,7 +5,6 @@ const projectSchema = z.object({
     .string()
     .min(1, { message: "debes tener un titulo para el proyecto" }),
   description: z.string().optional(),
-  user: z.string().min(1),
   category: z.string().min(1),
   demo_url: z
     .string()

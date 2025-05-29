@@ -5,7 +5,7 @@ export type ProjectType = {
   user_id: string;
   category_id: string;
   demo_url: string;
-  created_at: Date;
+  createProject_at: Date;
 };
 
-export type CreateProjectType = Omit<ProjectType, "id">;
+export type CreateProjectType = Omit<ProjectType, "id" | "createProject_at">;

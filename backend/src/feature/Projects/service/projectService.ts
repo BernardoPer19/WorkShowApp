@@ -1,28 +1,33 @@
 import { ProjectType, CreateProjectType } from "../types/projects";
 import { prisma } from "@/config/prisma";
 
-export const getProjectThatUser = async () => {
+export const getAllProjectsThatUser = async () => {
   const project = await prisma.projects.findMany();
 
   if (!project) {
     throw new Error("Proyecto no encontrado");
   }
 
-  return project;
+  return project ;
 };
+
+export const  getProjectThatUser = async (user : string)=>{
+  const project = await prisma.projects.findMany({
+    where : {user_id : user}
+  })
+  return project;
+}
 
 export const createProject = async (
   input: CreateProjectType
 ): Promise<ProjectType> => {
   const project = await prisma.projects.create({
-    data: {
+    data: {  
       title: input.title,
       description: input.description,
       user_id: input.user_id!,
       category_id: input.category_id!,
-      created_at: input.created_at,
-      demo_url: input.demo_url!, // Add this line to provide demo_url
-      // project_id is usually auto-generated, so it's not included here
+      demo_url: input.demo_url!
     },
   });
 
@@ -33,6 +38,7 @@ export const createProject = async (
     user_id: project.user_id!,
     category_id: project.category_id!,
     demo_url: project.demo_url!,
-    created_at : project.created_at!
+    createProject_at: project.createProject_at!,
   };
 };
+
