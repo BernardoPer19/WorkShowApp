@@ -26,9 +26,6 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
     next();
   } catch (err) {
      res.status(401).json({ message: "Token inválido o expirado" });
-<<<<<<< HEAD
-=======
      return
->>>>>>> 2064e347dd8c54c018f166a8d4b82899308dfbf6
   }
 };

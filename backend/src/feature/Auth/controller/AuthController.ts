@@ -13,34 +13,42 @@ export class AuthController {
       res.status(200).json(newUser);
     } catch (error) {
       if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
         throw new Error("Error al registrarse");
       }
     }
   }
   static loginUser = async (req: Request, res: Response) => {
-    const validatedData = validateLogin(req.body);
+    try {
+      const validatedData = validateLogin(req.body);
 
-    const user = await AuthService.LoginService(
-      validatedData.email,
-      validatedData.password
-    );
+      const user = await AuthService.LoginService(
+        validatedData.email,
+        validatedData.password
+      );
 
-    const token = createToken(user) 
- 
-    const options: CookieOptions = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000,
-    };
+      const token = createToken(user);
 
-    res
-      .status(200)
-      .cookie("access_token", token, options)
-      .json({
-        message: "El usuario inició sesión con éxito!",
-        bienvenida: `Bienvenido!! ${validatedData.email}`,
-      });
+      const options: CookieOptions = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 24 * 60 * 60 * 1000,
+      };
+
+      res
+        .status(200)
+        .cookie("access_token", token, options)
+        .json({
+          message: "El usuario inició sesión con éxito!",
+          bienvenida: `Bienvenido!! ${validatedData.email}`,
+        });
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
+        throw new Error("Error al iniciar sesion");
+      }
+    }
   };
 
   static async logoutController(_req: Request, res: Response) {

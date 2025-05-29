@@ -8,26 +8,29 @@ datasource db {
 }
 
 model categories {
-  category_id String     @id  @default(uuid()) @db.Uuid
-  name       String     @db.VarChar
-  projects   projects[]
+  category_id String     @id @default(uuid()) @db.Uuid
+  name        String     @db.VarChar
+  projects    projects[]
 }
 
 model collection_projects {
-  collection_id String      @id @db.Uuid
+  collection_projects_id            String      @id @default(uuid()) @db.Uuid
+  collection_id String      @db.Uuid
   project_id    String      @db.Uuid
   collections   collections @relation(fields: [collection_id], references: [collection_id], onDelete: NoAction, onUpdate: NoAction)
   projects      projects    @relation(fields: [project_id], references: [project_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([collection_id, project_id]) // evita duplicados
 }
 
 model collections {
-  collection_id       String               @id @db.Uuid
-  name_collection     String               @db.VarChar(50)
+  collection_id       String                @id @default(uuid()) @db.Uuid
+  name_collection     String                @db.VarChar(50)
   description         String
-  user_id             String               @db.Uuid
-  createCollection_at String               @db.Uuid
-  collection_projects collection_projects?
-  users               users                @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "llaveForanea")
+  user_id             String                @db.Uuid
+  createCollection_at DateTime              @default(now())
+  collection_projects collection_projects[]
+  users               users                 @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "llaveForanea")
 }
 
 model commets {
