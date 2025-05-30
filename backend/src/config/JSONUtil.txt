@@ -1,0 +1,19 @@
+Json para crear proyectos
+
+{
+  "title": "Mi proyecto de portafolio",
+  "description": "Este es un proyecto full-stack hecho con React y Express.",
+  "category": "27113204-9753-4402-b4bd-bee4db28b989", 
+  "demo_url": "https://mi-proyecto.vercel.app",
+	"user_id":"fec5f5da-4fd8-41da-a7fb-b5d1aa36d99e"
+}
+
+
+json para login y reguister: 
+
+{
+  "username": "123",
+  "email": "bernbard@example.com",
+  "password": "123123",
+  "profession": "Desarrollador Backend"
+}

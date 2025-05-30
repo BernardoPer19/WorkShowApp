@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-export const RegisterSchema = z.object({
+export const UserSchema = z.object({
+  user_id: z.string().uuid().optional(),
   username: z
     .string()
     .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
@@ -17,12 +18,10 @@ const LoginSchema = z.object({
     .string()
     .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
   email: z.string().email("Email no válido"),
-  password: z
-    .string()
-    .min(6, "La contraseña debe tener al menos 6 caracteres"),
+  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
 });
 
-export type RegisterTypeSchema = z.infer<typeof RegisterSchema>;
+export type RegisterTypeSchema = z.infer<typeof UserSchema>;
 
 export type LoginType = z.infer<typeof LoginSchema>;
 
@@ -31,7 +30,7 @@ export const validateLogin = (input: unknown): LoginType => {
 };
 
 export const validateRegister = (input: unknown): RegisterTypeSchema => {
-  const result = RegisterSchema.safeParse(input);
+  const result = UserSchema.safeParse(input);
   if (!result.success) {
     throw result.error;
   }
