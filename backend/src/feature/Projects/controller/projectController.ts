@@ -4,9 +4,11 @@ import {
   getProjectThatUser,
   createProject,
   getAllProjectsThatUser,
+  deleteProjects,
+  updateProjects,
 } from "../service/projectService";
 import { validateProject } from "../schemas/projectSchema";
-import { CreateProjectType } from "../types/projects";
+import { CreateProjectType, ProjectType } from "../types/projects";
 
 export class ProjectController {
   static getProjects = catchAsync(
@@ -43,6 +45,32 @@ export class ProjectController {
         message: "se creo el proyecto con exito",
         data: result,
       });
+    }
+  );
+
+  static deleteProject = catchAsync(
+    async (req: Request, res: Response, _next: NextFunction) => {
+      const user = req.user;
+      const project = req.params.id;
+      const result = await deleteProjects(project, user?.user_id!);
+      res
+        .status(201)
+        .json({ message: "se elimino el proyecto con exito", result });
+    }
+  );
+
+  static updateProject = catchAsync(
+    async (req: Request, res: Response, _next: NextFunction) => {
+      const vali = validateProject(req.body);
+      const user = req.user?.user_id!;
+      const project = req.params.id;
+
+      const result = await updateProjects(project, user, {
+        title: vali.title!,
+        description: vali.description!,
+        demo_url: vali.demo_url!,
+      } as ProjectType);
+      res.status(201).json({ message: "se actualizo con exito", result });
     }
   );
 }

@@ -59,3 +59,39 @@ export const createProject = async (
     createProject_at: project.createProject_at!,
   };
 };
+
+export const deleteProjects = async (project: string, user: string) => {
+  const userExists = await prisma.users.findUnique({
+    where: { user_id: user },
+  });
+
+  if (!userExists) {
+    throw new Error("El usuario no existe");
+  }
+  const projects = await prisma.projects.delete({
+    where: {
+      user_id: user,
+      project_id: project,
+    },
+  });
+  if (!projects.project_id) {
+    throw new Error("no se encontro el projecto");
+  }
+  return projects;
+};
+
+export const updateProjects = async (
+  project: string,
+  user: string,
+  input: ProjectType
+) => {
+  const projects = await prisma.projects.update({
+    where: { project_id: project, user_id: user },
+    data: {
+      description: input.description,
+      demo_url: input.demo_url,
+      title: input.title,
+    },
+  });
+  return projects;
+};
