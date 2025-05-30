@@ -60,29 +60,38 @@ export const createProject = async (
   };
 };
 
-export class NewFeature {
+export const deleteProjects = async (project: string, user: string) => {
+  const userExists = await prisma.users.findUnique({
+    where: { user_id: user },
+  });
 
-  static async getUnorganizedProjects(userId: string) {
-    try {
-      return await prisma.projects.findMany({
-        where: {
-          user_id: userId,
-          collection_projects: {
-            none: {},
-          },
-        },
-        include: {
-          categories: true,
-          project_media: {
-            take: 1,
-            orderBy: { order: "asc" },
-          },
-        },
-        orderBy: { createProject_at: "desc" },
-      });
-    } catch (error) {
-      console.error("Error al obtener proyectos sin organizar:", error);
-      throw new Error("Error al obtener proyectos sin organizar");
-    }
+  if (!userExists) {
+    throw new Error("El usuario no existe");
   }
-}
+  const projects = await prisma.projects.delete({
+    where: {
+      user_id: user,
+      project_id: project,
+    },
+  });
+  if (!projects.project_id) {
+    throw new Error("no se encontro el projecto");
+  }
+  return projects;
+};
+
+export const updateProjects = async (
+  project: string,
+  user: string,
+  input: ProjectType
+) => {
+  const projects = await prisma.projects.update({
+    where: { project_id: project, user_id: user },
+    data: {
+      description: input.description,
+      demo_url: input.demo_url,
+      title: input.title,
+    },
+  });
+  return projects;
+};
