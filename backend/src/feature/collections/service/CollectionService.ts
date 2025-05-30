@@ -340,7 +340,7 @@ export class CollectionService {
           where: {
             name_collection: updateData.name,
             user_id: userId,
-            NOT: { collection_id: collectionId }, // Excluir la colección actual
+            NOT: { collection_id: collectionId },
           },
         });
 
