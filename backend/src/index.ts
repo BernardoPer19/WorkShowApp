@@ -1,20 +1,21 @@
 import express from "express";
-import { AuthController } from "./feature/Auth/controller/AuthController";
 import dotenv from "dotenv";
-import { projectRoute } from "./feature/Projects/routes/projects.routes";
+import { AuthRouter } from "./feature/Auth/routes/Auth.routes";
 import cookieParser from "cookie-parser";
-import { commentRoute } from "./feature/commets/routes/comments.routes";
+import { projectRoute } from "./feature/Projects/routes/projects.routes";
+import { ConllectionController } from "./feature/collections/controller/CollectionController";
 dotenv.config();
-
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/project" , projectRoute);
-app.use("/comment" , commentRoute)
+app.use("/", AuthRouter);
+app.use("/", projectRoute);
 
-app.post("/register", AuthController.registerUser);
-app.post("/login", AuthController.loginUser);
+app.get("/collection/:id", ConllectionController.getCollectionTheUsers);
+app.get("/collection/:id", ConllectionController.getCollectionById);
+app.post("/collection/:id", ConllectionController.createCollection);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
