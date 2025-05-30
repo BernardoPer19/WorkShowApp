@@ -14,11 +14,11 @@ model Categories {
 }
 
 model Collection_projects {
-  collection_projects_id            String      @id @default(uuid()) @db.Uuid
-  collection_id String      @db.Uuid
-  project_id    String      @db.Uuid
-  collections   Collections @relation(fields: [collection_id], references: [collection_id], onDelete: NoAction, onUpdate: NoAction)
-  projects      Projects    @relation(fields: [project_id], references: [project_id], onDelete: NoAction, onUpdate: NoAction)
+  collection_projects_id String      @id @default(uuid()) @db.Uuid
+  collection_id          String      @db.Uuid
+  project_id             String      @db.Uuid
+  collections            Collections @relation(fields: [collection_id], references: [collection_id], onDelete: NoAction, onUpdate: NoAction)
+  projects               Projects    @relation(fields: [project_id], references: [project_id], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([collection_id, project_id]) // evita duplicados
 }

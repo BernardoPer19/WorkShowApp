@@ -16,7 +16,7 @@ export class ProjectController {
     }
   );
 
-  static getProjectsThatUsers = catchAsync(
+  static getProjectsByUsers = catchAsync(
     async (req: Request, res: Response, _next: NextFunction) => {
       if (!req.user) {
         res.status(401).json({ message: "No autenticado" });
@@ -30,15 +30,14 @@ export class ProjectController {
 
   static createProjects = catchAsync(
     async (req: Request, res: Response, _next: NextFunction) => {
-      
       const vali = validateProject(req.body);
 
       const result = await createProject({
         title: vali.title,
         description: vali.description,
-        user_id : req.user!.user_id,
+        user_id: req.user!.user_id,
         category_id: vali.category,
-        demo_url  :vali.demo_url
+        demo_url: vali.demo_url,
       } as CreateProjectType);
       res.status(201).json({
         message: "se creo el proyecto con exito",

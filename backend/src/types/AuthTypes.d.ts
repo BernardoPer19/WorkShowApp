@@ -1,3 +1,7 @@
+export type uuidType =
+  | `${string}-${string}-${string}-${string}-${string}`
+  | undefined;
+
 export interface UserType {
   user_id: string;
   username: string;

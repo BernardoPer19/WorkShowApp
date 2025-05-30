@@ -1,6 +1,5 @@
 import { UserType } from "@/types/AuthTypes";
 
-export type uuidType = `${string}-${string}-${string}-${string}-${string}`;
 
 export interface CollectionType {
   collectionId: uuidType;

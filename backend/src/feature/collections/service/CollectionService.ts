@@ -1,7 +1,7 @@
 import { prisma } from "@/config/prisma";
 import { Collections, Projects } from "@prisma/client";
-import { uuidType } from "../types/CollectionTypes";
 import { CreateCollectionInput } from "../schemas/Schema";
+import { uuidType } from "@/types/AuthTypes";
 
 export class CollectionService {
   // --- MÉTODOS PRIVADOS ---
@@ -75,7 +75,6 @@ export class CollectionService {
   //! Crear colección
   static async createCollection(input: CreateCollectionInput) {
     try {
-      // MEJORA: Validar que el nombre no esté duplicado para el usuario
       const existingCollection = await prisma.collections.findFirst({
         where: {
           name_collection: input.name,
@@ -104,7 +103,7 @@ export class CollectionService {
   }
 
   //! Obtener colecciones de un usuario con información adicional
-  static async getCollectionsByUser(userId: uuidType) {
+  static async getCollectionsByUser(userId: string) {
     try {
       return await prisma.collections.findMany({
         where: { user_id: userId },
@@ -122,7 +121,7 @@ export class CollectionService {
   }
 
   //!  Obtener colección por id con proyectos
-  static async getCollectionById(collectionId: uuidType) {
+  static async CollectionById(collectionId: string) {
     try {
       const collection = await prisma.collections.findUnique({
         where: { collection_id: collectionId },
