@@ -34,7 +34,7 @@ model Collections {
 }
 
 model Commets {
-  commet_id  String    @id(map: "likes_pkey") @db.Uuid
+  commet_id  String    @id(map: "likes_pkey") @default(uuid()) @db.Uuid
   content    String
   user_id    String    @db.Uuid
   project_id String    @db.Uuid
