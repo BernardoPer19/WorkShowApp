@@ -59,3 +59,30 @@ export const createProject = async (
     createProject_at: project.createProject_at!,
   };
 };
+
+export class NewFeature {
+
+  static async getUnorganizedProjects(userId: string) {
+    try {
+      return await prisma.projects.findMany({
+        where: {
+          user_id: userId,
+          collection_projects: {
+            none: {},
+          },
+        },
+        include: {
+          categories: true,
+          project_media: {
+            take: 1,
+            orderBy: { order: "asc" },
+          },
+        },
+        orderBy: { createProject_at: "desc" },
+      });
+    } catch (error) {
+      console.error("Error al obtener proyectos sin organizar:", error);
+      throw new Error("Error al obtener proyectos sin organizar");
+    }
+  }
+}
