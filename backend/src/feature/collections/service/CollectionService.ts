@@ -1,7 +1,6 @@
 import { prisma } from "@/config/prisma";
 import { Collections, Projects } from "@prisma/client";
 import { CreateCollectionInput } from "../schemas/Schema";
-import { uuidType } from "@/types/AuthTypes";
 
 export class CollectionService {
   // --- MÉTODOS PRIVADOS ---
@@ -162,6 +161,42 @@ export class CollectionService {
     }
   }
 
+  static async getProjectsByCollectionName(
+    collectionName: string,
+    user_id: string
+  ) {
+    try {
+      const collection = await prisma.collections.findFirst({
+        where: {
+          name_collection: collectionName,
+          user_id, // 👈 Esto filtra que la colección sea del usuario correcto
+        },
+        include: {
+          collection_projects: {
+            include: {
+              projects: true,
+            },
+          },
+        },
+      });
+
+      if (!collection || !collection.collection_projects) {
+        throw new Error(
+          "La colección no existe o no tiene proyectos asociados"
+        );
+      }
+
+      const projects = collection.collection_projects.map((cp) => cp.projects);
+
+      return projects;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Error al obtener los proyectos: ${error.message}`);
+      }
+      throw new Error("Error al obtener los proyectos");
+    }
+  }
+
   //! Agregar un proyecto a una colección usando IDs
   static async addProjectToCollection(
     userId: string,
@@ -169,7 +204,6 @@ export class CollectionService {
     collectionId: string
   ) {
     try {
-      // Usar transaction para asegurar consistencia
       const result = await prisma.$transaction(async (tx) => {
         // Validar existencia y pertenencia
         await this.findProjectByIdOrFail(userId, projectId);
@@ -255,7 +289,7 @@ export class CollectionService {
   }
 
   //! NUEVO: Remover proyecto de una colección
-  static async removeProjectFromCollection(
+  static async deleteProjectFromCollection(
     userId: string,
     projectId: string,
     collectionId: string
@@ -287,31 +321,6 @@ export class CollectionService {
         throw error;
       }
       throw new Error("Error interno del servidor");
-    }
-  }
-
-  //! NUEVO: Obtener proyectos que NO están en ninguna colección
-  static async getUnorganizedProjects(userId: string) {
-    try {
-      return await prisma.projects.findMany({
-        where: {
-          user_id: userId,
-          collection_projects: {
-            none: {},
-          },
-        },
-        include: {
-          categories: true,
-          project_media: {
-            take: 1,
-            orderBy: { order: "asc" },
-          },
-        },
-        orderBy: { createProject_at: "desc" },
-      });
-    } catch (error) {
-      console.error("Error al obtener proyectos sin organizar:", error);
-      throw new Error("Error al obtener proyectos sin organizar");
     }
   }
 

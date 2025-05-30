@@ -17,3 +17,20 @@ json para login y reguister:
   "password": "123123",
   "profession": "Desarrollador Backend"
 }
+
+crear colleccion
+
+{
+ "name": "Proyectos Full-Stack",
+  "description": "Este es mi colleccion de proyectos full-stack donde compartire sobre mi logros",
+  "user_id": "e3045e2c-a488-44d3-98d2-3da616048af4"
+}
+
+
+añadir proyectos a la coleccion:
+
+{
+			"user_id" :"e3045e2c-a488-44d3-98d2-3da616048af4",
+       "product_id" : "a5d3a5a3-110a-4747-bc2b-f3d350d9f1e3",
+       "collection_id" : "c82dae61-eb42-4792-a34e-5ef3602d9557"
+}
