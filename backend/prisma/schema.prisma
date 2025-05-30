@@ -31,11 +31,11 @@ model collections {
 }
 
 model commets {
-  commet_id  String    @id(map: "likes_pkey") @db.Uuid
+  commet_id  String    @id(map: "likes_pkey") @default(uuid()) @db.Uuid
   content    String
   user_id    String    @db.Uuid
   project_id String    @db.Uuid
-  created_at DateTime? @db.Timestamptz(6)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
   projects   projects  @relation(fields: [project_id], references: [project_id], onDelete: NoAction, onUpdate: NoAction)
   users      users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fkeyCommets")
 }
