@@ -3,14 +3,12 @@ import { ContainCommentTypes } from "../types/comment";
 import { CommnetType } from "../schemas/schemaComents";
 
 export class commetService {
+  // public
+
   static lookAllCommentsThatProject = async (project: string) => {
     const comment = await prisma.commets.findMany({
       where: { project_id: project },
     });
-
-    if (!comment) {
-      throw new Error("proyecto no encontrado");
-    }
 
     return comment;
   };
@@ -18,6 +16,13 @@ export class commetService {
   static createAComment = async (
     input: CommnetType
   ): Promise<ContainCommentTypes> => {
+    const project = await prisma.projects.findUnique({
+      where: { project_id: input.project },
+    });
+    if (!project) {
+      throw new Error("El proyecto no existe");
+    }
+
     const comment = await prisma.commets.create({
       data: {
         content: input.content!,
@@ -25,6 +30,7 @@ export class commetService {
         user_id: input.user,
       },
     });
+
     return {
       commet_id: comment.commet_id,
       content: comment.content,
@@ -35,15 +41,15 @@ export class commetService {
   };
 
   static deleteAComment = async (userAutenticate: string, comment: string) => {
-    const user = await prisma.commets.findFirst({
+    const existing = await prisma.commets.findFirst({
       where: { commet_id: comment, user_id: userAutenticate },
     });
 
-    if (!user) {
+    if (!existing) {
       return null;
     }
 
-    const coment = await prisma.commets.delete({
+    const coment = await prisma.commets.deleteMany({
       where: {
         commet_id: comment,
       },
@@ -57,11 +63,17 @@ export class commetService {
     input: CommnetType,
     user: string
   ) => {
+    const existeing = await prisma.commets.findFirst({
+      where: { commet_id: comment_id, user_id: user },
+    });
+
+    if (!existeing) {
+      return null;
+    }
+
     const comment = await prisma.commets.update({
       where: {
         commet_id: comment_id,
-        user_id: user,
-        project_id: input.project,
       },
       data: { content: input.content! },
     });
