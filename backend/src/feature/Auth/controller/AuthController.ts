@@ -3,12 +3,14 @@ import { validateLogin, validateRegister } from "../schemas/AuthSchea";
 import { AuthService } from "../service/RegisterUser";
 import { UserType } from "@/types/AuthTypes";
 import { createToken } from "../utils/AuthUtils";
+import { sendEmail } from "../service/nodemailerRegister";
 
 export class AuthController {
   static async registerUser(req: Request, res: Response) {
     try {
       const validateData = validateRegister(req.body);
       const newUser = await AuthService.registerUser(validateData);
+      await sendEmail(newUser.email , newUser.username)
 
       res.status(200).json(newUser);
     } catch (error) {
