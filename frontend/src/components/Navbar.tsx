@@ -44,6 +44,10 @@ import {
   Lightbulb,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import {
+  AuthContext,
+  useAuthContext,
+} from "../features/auth/context/AuthContext";
 
 const categories = [
   {
@@ -168,7 +172,7 @@ interface NavbarProps {
 export default function Navbar({ isLoggedIn = false }: NavbarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [notifications] = useState(3);
-
+  const { isAuthenticated } = useAuthContext();
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="container flex h-16 items-center justify-between px-4">
@@ -304,7 +308,7 @@ export default function Navbar({ isLoggedIn = false }: NavbarProps) {
 
         {/* Right Side */}
         <nav className="flex items-center gap-4">
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <>
               {/* Create Button */}
               <DropdownMenu>
@@ -470,10 +474,10 @@ export default function Navbar({ isLoggedIn = false }: NavbarProps) {
           ) : (
             <>
               <Button variant="ghost">
-                <Link to={"/login2"}>Iniciar Sesión</Link>
+                <Link to={"/auth/login"}>Iniciar Sesión</Link>
               </Button>
               <Button>
-                <Link to={"/register2"}>Registrarse</Link>
+                <Link to={"auth/register"}>Registrarse</Link>
               </Button>
             </>
           )}

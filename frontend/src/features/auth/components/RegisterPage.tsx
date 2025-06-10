@@ -39,7 +39,7 @@ const steps = [
   { id: 3, title: "Configuración", description: "Últimos detalles" },
 ];
 
-export default function RegisterPage2() {
+export default function RegisterForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -121,7 +121,7 @@ export default function RegisterPage2() {
   const progress = (currentStep / 3) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10 flex items-center justify-center p-4">
+    <div>
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center mb-8">

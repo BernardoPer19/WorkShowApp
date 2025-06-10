@@ -1,186 +1,190 @@
+import { useState } from "react";
+import { Button } from "../../../components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
+import { Checkbox } from "../../../components/ui/checkbox";
+import { Alert, AlertDescription } from "../../../components/ui/alert";
+import { Eye, EyeOff, Mail, Lock, ArrowLeft, Palette } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "../hooks/useAuth";
-import { useEffect } from "react";
 import { LoginSchema, type LoginType } from "../schema/AuthSchema";
-import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
-export const LoginForm = () => {
-  const {
-    login: {
-      loginMutate,
-      loginError,
-      loginReset,
-      isLoginError,
-      isLoginLoading,
-    },
-  } = useAuth();
+export default function LoginForm() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
+  const { loginMutate, isLoginLoading, loginError } = useAuth().login;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginType>({
     resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      username: undefined,
+      email: "",
+      password: "",
+    },
   });
 
   const onSubmit = (data: LoginType) => {
     loginMutate(data, {
-      onSuccess: () => {
-        navigate("/profile");
-      },
-      onError: (error) => {
-        console.error("Error al iniciar sesión:", error);
-      },
+      onSuccess: () => navigate("/profile"),
     });
   };
 
-  useEffect(() => {
-    return () => {
-      loginReset();
-    };
-  }, [loginReset]);
-
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="w-full max-w-md p-8 bg-white rounded-3xl shadow-lg space-y-8"
-      noValidate
-    >
-      <h2 className="text-2xl font-semibold text-center text-indigo-700">
-        Iniciar sesión
-      </h2>
-
-      <div className="flex flex-col">
-        <label
-          htmlFor="username"
-          className="mb-2 text-sm font-medium text-gray-700"
-        >
-          Name
-        </label>
-        <input
-          id="name"
-          type="text"
-          placeholder="tucorreo@ejemplo.com"
-          {...register("username")}
-          className={`w-full rounded-xl px-4 py-3 border transition focus:outline-none focus:ring-2 focus:ring-indigo-500
-            ${
-              errors.username
-                ? "border-red-500 focus:ring-red-500 shadow-sm"
-                : "border-gray-300"
-            }`}
-          aria-invalid={errors.username ? "true" : "false"}
-          aria-describedby={errors.username ? "username-error" : undefined}
-        />
-        {errors.username && (
-          <p
-            id="username-error"
-            className="mt-1 text-sm text-red-600"
-            role="alert"
-          >
-            {errors.username.message}
-          </p>
-        )}
-      </div>
-
-      <div className="flex flex-col">
-        <label
-          htmlFor="email"
-          className="mb-2 text-sm font-medium text-gray-700"
-        >
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          placeholder="tucorreo@ejemplo.com"
-          {...register("email")}
-          className={`w-full rounded-xl px-4 py-3 border transition focus:outline-none focus:ring-2 focus:ring-indigo-500
-            ${
-              errors.email
-                ? "border-red-500 focus:ring-red-500 shadow-sm"
-                : "border-gray-300"
-            }`}
-          aria-invalid={errors.email ? "true" : "false"}
-          aria-describedby={errors.email ? "email-error" : undefined}
-        />
-        {errors.email && (
-          <p
-            id="email-error"
-            className="mt-1 text-sm text-red-600"
-            role="alert"
-          >
-            {errors.email.message}
-          </p>
-        )}
-      </div>
-
-      <div className="flex flex-col">
-        <label
-          htmlFor="password"
-          className="mb-2 text-sm font-medium text-gray-700"
-        >
-          Contraseña
-        </label>
-        <input
-          id="password"
-          type="password"
-          placeholder="******"
-          {...register("password")}
-          className={`w-full rounded-xl px-4 py-3 border transition focus:outline-none focus:ring-2 focus:ring-indigo-500
-            ${
-              errors.password
-                ? "border-red-500 focus:ring-red-500 shadow-sm"
-                : "border-gray-300"
-            }`}
-          aria-invalid={errors.password ? "true" : "false"}
-          aria-describedby={errors.password ? "password-error" : undefined}
-        />
-        {errors.password && (
-          <p
-            id="password-error"
-            className="mt-1 text-sm text-red-600"
-            role="alert"
-          >
-            {errors.password.message}
-          </p>
-        )}
-      </div>
-
-      {isLoginError && (
-        <p className="text-center text-red-600 font-medium">
-          {loginError?.message}
-        </p>
-      )}
-
-      <button
-        type="submit"
-        disabled={isLoginLoading}
-        className={`w-full rounded-xl py-3 font-semibold text-white transition 
-          ${
-            isLoginLoading
-              ? "bg-indigo-400 cursor-not-allowed"
-              : "bg-indigo-600 hover:bg-indigo-700"
-          }`}
-        aria-busy={isLoginLoading}
-      >
-        {isLoginLoading ? "Cargando..." : "Iniciar sesión"}
-      </button>
-
-      <div className="flex gap-3 flex-row-reverse">
-        <p className="text-center text-sm text-gray-500">
-          ¿Olvidaste tu contraseña?
-          <a href="#" className="text-indigo-600 hover:underline">
-            Recuperarla aquí
-          </a>
-        </p>
-        <p className="text-center text-sm text-gray-500">
-          No tienes cuenta?
-          <Link to={"/auth/register"}>
-            <span className="text-indigo-600">Registrate Aquí</span>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <Link to="/" className="inline-flex items-center gap-2 mb-6">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Palette className="h-5 w-5" />
+            </div>
+            <span className="text-2xl font-bold">CreativeHub</span>
           </Link>
-        </p>
+          <h1 className="text-3xl font-bold mb-2">Bienvenido de vuelta</h1>
+          <p className="text-muted-foreground">
+            Inicia sesión en tu cuenta para continuar
+          </p>
+        </div>
+
+        <Card className="shadow-xl">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl text-center">
+              Iniciar Sesión
+            </CardTitle>
+            <CardDescription className="text-center">
+              Ingresa tus credenciales para acceder a tu cuenta
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-4">
+            {loginError && (
+              <Alert variant="destructive" className="bg-red-600  text-white">
+                <AlertDescription>
+                  <p className="font-bold text-white">{loginError.message}</p>
+                </AlertDescription>
+              </Alert>
+            )}
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              {/* Username (opcional) */}
+
+              {/* Email */}
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="tu@email.com"
+                    className="pl-10"
+                    {...register("email")}
+                  />
+                </div>
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
+              </div>
+
+              {/* Password */}
+              <div className="space-y-2">
+                <Label htmlFor="password">Contraseña</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="pl-10 pr-10"
+                    {...register("password")}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Checkbox + link */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember" className="text-sm">
+                    Recordarme
+                  </Label>
+                </div>
+                <Link
+                  to="/auth/forgot-password2"
+                  className="text-sm text-primary hover:underline"
+                >
+                  ¿Olvidaste tu contraseña?
+                </Link>
+              </div>
+
+              {/* Submit */}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoginLoading}
+              >
+                {isLoginLoading ? "Iniciando sesión..." : "Iniciar Sesión"}
+              </Button>
+            </form>
+
+            {/* Register link */}
+            <div className="text-center text-sm">
+              <span className="text-muted-foreground">
+                ¿No tienes una cuenta?{" "}
+              </span>
+              <Link
+                to="/auth/register"
+                className="text-primary hover:underline font-medium"
+              >
+                Regístrate aquí
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Back to home */}
+        <div className="text-center mt-6">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Volver al inicio
+          </Link>
+        </div>
       </div>
-    </form>
+    </div>
   );
-};
+}
