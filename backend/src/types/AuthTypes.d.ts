@@ -6,14 +6,13 @@ export interface UserType {
   user_id: string;
   username: string;
   email: string;
-  password: string;
+  profession: string | null; // ✅ Cambiar a null en lugar de undefined
   created_at: Date;
-  bio?: string;
-  avatar_url?: string;
-  profession: string;
-  portafolio_url?: string;
+  bio: string | null; // ✅ Cambiar a null en lugar de undefined
+  password?: string; // ✅ Opcional para cuando no necesites la contraseña
+  avatar_url: string | null; // ✅ Agregar si lo usas
+  portafolio_url: string | null; // ✅ Agregar si lo usas
 }
-
 export type registerUserType = Pick<
   UserType,
   "username" | "email" | "password" | "created_at" | "profession" | "user_id"

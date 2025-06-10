@@ -6,6 +6,7 @@ import { projectRoute } from "./feature/Projects/routes/projects.routes";
 import { CollectionRouter } from "./feature/collections/routes/Colection.routes";
 import { errorHandler } from "./middlewares/errorHandler";
 import cors from 'cors'
+
 dotenv.config();
 const app = express();
 

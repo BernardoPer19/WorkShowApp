@@ -21,7 +21,8 @@ export const UserSchema = z.object({
   bio: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional()
 });
 
-const LoginSchema = z.object({
+
+export const LoginSchema = z.object({
   username: z
     .string()
     .min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional(),
@@ -29,7 +30,7 @@ const LoginSchema = z.object({
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
 });
 
-export type RegisterTypeSchema = z.infer<typeof UserSchema>;
+export type RegisterType = z.infer<typeof UserSchema>;
 
 export type LoginType = z.infer<typeof LoginSchema>;
 
@@ -37,7 +38,7 @@ export const validateLogin = (input: unknown): LoginType => {
   return LoginSchema.parse(input);
 };
 
-export const validateRegister = (input: unknown): RegisterTypeSchema => {
+export const validateRegister = (input: unknown): RegisterType => {
   const result = UserSchema.safeParse(input);
   if (!result.success) {
     throw result.error;
