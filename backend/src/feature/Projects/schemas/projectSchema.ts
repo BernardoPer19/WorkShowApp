@@ -11,6 +11,8 @@ const projectSchema = z.object({
   demo_url: z
     .string()
     .min(1, { message: "debes adjuntar una url al proyecto" }),
+  tecnologies  : z.array(z.string()).optional() 
+
 });
 
 export type projectSchemaType = z.infer<typeof projectSchema>;

@@ -81,7 +81,7 @@ export default function RegisterStep2({
   const specialty = watch("profession") as string;
   const bio = watch("bio") as string;
   const portfolio = watch("portafolio_url") as string;
-  const selectedSkills = (watch("toolSkills") as string[]) || [];
+  const selectedSkills = (watch("tecnologies") as string[]) || [];
 
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -98,7 +98,7 @@ export default function RegisterStep2({
     const newSkills = selectedSkills.includes(skill)
       ? selectedSkills.filter((s) => s !== skill)
       : [...selectedSkills, skill];
-    setValue("toolSkills", newSkills, { shouldValidate: true });
+    setValue("tecnologies", newSkills, { shouldValidate: true });
   };
 
   return (

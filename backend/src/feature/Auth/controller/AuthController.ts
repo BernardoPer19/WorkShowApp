@@ -4,22 +4,24 @@ import { validateLogin, validateRegister } from "../schemas/AuthSchea";
 import { AuthService } from "../service/RegisterUser";
 import { UserType } from "@/types/AuthTypes";
 import { createToken } from "../utils/AuthUtils";
+import { sendEmail } from "../service/nodemailerRegister";
 
 export class AuthController {
   static async registerUser(req: Request, res: Response) {
     try {
       const validateData = validateRegister(req.body);
       const newUser = await AuthService.registerUser(validateData);
+      await sendEmail(newUser.email, newUser.username);
+
       res.status(200).json(newUser);
       return
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ message: error.message });
-      } else {
-        res.status(500).json({ message: "Error interno del servidor" });
       }
     }
   }
+
 
   static loginUser = async (req: Request, res: Response) => {
     try {
@@ -39,6 +41,7 @@ export class AuthController {
         bio: userFromDB.bio,
         avatar_url: userFromDB.avatar_url,
         portafolio_url: userFromDB.portafolio_url,
+        tecnologies: userFromDB.toolSkills || [],
       };
 
       const token = createToken(user);
@@ -122,4 +125,14 @@ export class AuthController {
       res.status(500).json({ message: "Error al obtener datos del perfil" });
     }
   };
+
+  static async getTecnologiesUser(req: Request, res: Response) {
+    const user = req.user as UserType;
+    if (!user || !user.user_id) {
+      res.status(401).json({ message: "Usuario no autorizado" });
+      return;
+    }
+    const getTecnologies = await AuthService.getUserProfile(user.user_id);
+    res.status(200).json({ data: getTecnologies });
+  }
 }

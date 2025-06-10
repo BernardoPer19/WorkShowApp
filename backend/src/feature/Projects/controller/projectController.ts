@@ -29,6 +29,7 @@ export class ProjectController {
         user_id: req.user!.user_id,
         category_id: vali.category,
         demo_url: vali.demo_url,
+        tecnologies : vali.tecnologies
       } as CreateProjectType);
       res.status(201).json({
         message: "se creo el proyecto con exito",
