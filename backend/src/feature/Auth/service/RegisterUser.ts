@@ -1,4 +1,4 @@
-import { comparePassword, hashPassowrd } from "../utils/AuthUtils";
+import { comparePassword, hashPassword } from "../utils/AuthUtils";
 import { RegisterTypeSchema } from "../schemas/AuthSchea";
 import { prisma } from "../../../config/prisma";
 
@@ -12,7 +12,7 @@ export class AuthService {
       throw new Error("El correo ya está registrado");
     }
 
-    const hashingPassowrd = await hashPassowrd(data.password);
+    const hashingPassowrd = await hashPassword(data.password);
 
     const createUser = await prisma.users.create({
       data: {

@@ -7,14 +7,13 @@ import {
   useContext,
 } from "react";
 import { getCurrentUser, logOutRequest } from "../api/AuthRequest";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import type { UserType } from "../types/AuthTypes";
 
 interface AuthContextType {
   logout: () => void;
-  currentUser: UserType;
+  currentUser: UserType | undefined;
   isAuthenticated: boolean;
   isAuthLoading: boolean;
 }
@@ -40,7 +39,6 @@ const AuthContextProvider = ({ children }: ChildrenType) => {
   const logout = async () => {
     try {
       await logOutRequest();
-      Cookies.remove("access_token");
       queryClient.removeQueries({ queryKey: ["currentUser"] });
 
       setIsAuthenticated(false);
