@@ -12,3 +12,4 @@ AuthRouter.get("/auth/currentUser", verifyUser, AuthController.getCurrentUser);
 AuthRouter.get("/auth/data" , verifyUser , AuthController.getTecnologiesUser);
 
 
+ 

@@ -94,7 +94,8 @@ export class AuthService {
     if (!user) throw new Error("Usuario no encontrado");
 
     const technologiesNames = user.userTecnologies.map((t) => t.tecnology.name);
+    const { userTecnologies, ...userWithoutTecnologies } = user;
 
-    return { ...user, tecnologies: technologiesNames };
+    return { ...userWithoutTecnologies, tecnologies: technologiesNames };
   }
 }

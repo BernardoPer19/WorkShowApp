@@ -24,7 +24,7 @@ export const sendEmail = async (to: string, subject: string , name?: string) => 
     </div>
   `;
   const info = await transporter.sendMail({
-    from: `"Mi App" <${process.env.EMAIL_USER}>`,
+    from: `"Mi App" <${process.env.EMAIL_USER}>`, 
     to,
     subject: subject || "Bienvenido a Mi App",
     html: htmlContent,

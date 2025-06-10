@@ -16,7 +16,6 @@ export class AuthController {
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ message: error.message });
-        throw new Error("Error al registrarse");
       }
     }
   }
