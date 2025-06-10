@@ -82,6 +82,34 @@ model Projects {
   project_media       Project_media[]
   categories          Categories            @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
   users               Users                 @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  ProjectTecnology    ProjectTecnology[]
+}
+
+model Tecnologies {
+  tecnology_id    String             @id @default(uuid()) @db.Uuid
+  name            String             @unique @db.VarChar(50)
+  projects        ProjectTecnology[]
+  userTecnologies UserTecnology[]
+}
+
+model ProjectTecnology {
+  project_id   String @db.Uuid
+  tecnology_id String @db.Uuid
+
+  project   Projects    @relation(fields: [project_id], references: [project_id])
+  tecnology Tecnologies @relation(fields: [tecnology_id], references: [tecnology_id])
+
+  @@id([project_id, tecnology_id])
+}
+
+model UserTecnology {
+  user_id      String @db.Uuid
+  tecnology_id String @db.Uuid
+
+  user      Users       @relation(fields: [user_id], references: [user_id])
+  tecnology Tecnologies @relation(fields: [tecnology_id], references: [tecnology_id])
+
+  @@id([user_id, tecnology_id])
 }
 
 model Users {
@@ -101,8 +129,9 @@ model Users {
   // Relaciones
   collections                         Collections[]
   commets                             Commets[]
-  follows_follows_follewer_idTousers  Follows?      @relation("follows_follewer_idTousers")
-  follows_follows_following_idTousers Follows[]     @relation("follows_following_idTousers")
+  follows_follows_follewer_idTousers  Follows?        @relation("follows_follewer_idTousers")
+  follows_follows_following_idTousers Follows[]       @relation("follows_following_idTousers")
   likes                               Likes?
   projects                            Projects[]
+  UserTecnology                       UserTecnology[]
 }
