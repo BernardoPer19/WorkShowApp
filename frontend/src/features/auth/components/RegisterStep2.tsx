@@ -15,7 +15,8 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 import { Upload, Check } from "lucide-react";
-import { useState } from "react";
+import type { UseFormReturn } from "react-hook-form";
+import type { RegisterType } from "../schema/AuthSchema";
 
 const specialties = [
   "UI/UX Designer",
@@ -66,52 +67,42 @@ const skills = [
 ];
 
 type RegisterStep2Props = {
-  currentStep: number
-  formData: {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-    confirmPassword: string
-    username: string
-    specialty: string
-    bio: string
-    selectedSkills: string[]
-    portfolio: string
-    acceptTerms: boolean
-    newsletter: boolean
-    [key: string]: unknown
-  }
-  updateFormData: (field: string, value: unknown) => void
-}
+  currentStep: number;
+  form: UseFormReturn<RegisterType>;
+};
 
-function RegisterStep2({
+export default function RegisterStep2({
   currentStep,
-  formData,
-  updateFormData,
+  form,
 }: RegisterStep2Props) {
-  const [avatarPreview, setAvatarPreview] = useState("");
+  const { watch, setValue } = form;
+
+  const avatarPreview = watch("avatar_url") as string;
+  const specialty = watch("profession") as string;
+  const bio = watch("bio") as string;
+  const portfolio = watch("portafolio_url") as string;
+  const selectedSkills = (watch("tecnologies") as string[]) || [];
 
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setAvatarPreview(e.target?.result as string);
+        setValue("avatar_url", e.target?.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleSkillToggle = (skill: string) => {
-    const newSkills = formData.selectedSkills.includes(skill)
-      ? formData.selectedSkills.filter((s) => s !== skill)
-      : [...formData.selectedSkills, skill];
-    updateFormData("selectedSkills", newSkills);
+    const newSkills = selectedSkills.includes(skill)
+      ? selectedSkills.filter((s) => s !== skill)
+      : [...selectedSkills, skill];
+    setValue("tecnologies", newSkills, { shouldValidate: true });
   };
 
   return (
-    <div>
+    <>
       {currentStep === 2 && (
         <div className="space-y-6">
           {/* Avatar Upload */}
@@ -120,8 +111,7 @@ function RegisterStep2({
               <Avatar className="w-24 h-24">
                 <AvatarImage src={avatarPreview || "/placeholder.svg"} />
                 <AvatarFallback className="text-2xl">
-                  {formData.firstName[0]}
-                  {formData.lastName[0]}
+                  {/* Puede ser mejor mostrar iniciales de form.watch("name") */}
                 </AvatarFallback>
               </Avatar>
               <Label
@@ -145,10 +135,12 @@ function RegisterStep2({
 
           {/* Specialty */}
           <div className="space-y-2">
-            <Label htmlFor="specialty">Especialidad principal *</Label>
+            <Label htmlFor="profession">Especialidad principal *</Label>
             <Select
-              value={formData.specialty}
-              onValueChange={(value) => updateFormData("specialty", value)}
+              value={specialty}
+              onValueChange={(value) =>
+                setValue("profession", value, { shouldValidate: true })
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Selecciona tu especialidad" />
@@ -168,13 +160,13 @@ function RegisterStep2({
             <Label htmlFor="bio">Biografía profesional</Label>
             <Textarea
               id="bio"
-              placeholder="Cuéntanos sobre ti, tu experiencia y lo que te apasiona..."
-              value={formData.bio}
-              onChange={(e) => updateFormData("bio", e.target.value)}
+              placeholder="Cuéntanos sobre ti..."
+              value={bio}
+              onChange={(e) => setValue("bio", e.target.value)}
               className="min-h-[100px]"
             />
             <p className="text-xs text-muted-foreground">
-              {formData.bio.length}/500 caracteres
+              {bio?.length || 0}/500 caracteres
             </p>
           </div>
 
@@ -189,14 +181,12 @@ function RegisterStep2({
                 <Badge
                   key={skill}
                   variant={
-                    formData.selectedSkills.includes(skill)
-                      ? "default"
-                      : "outline"
+                    selectedSkills.includes(skill) ? "default" : "outline"
                   }
                   className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
                   onClick={() => handleSkillToggle(skill)}
                 >
-                  {formData.selectedSkills.includes(skill) && (
+                  {selectedSkills.includes(skill) && (
                     <Check className="h-3 w-3 mr-1" />
                   )}
                   {skill}
@@ -204,25 +194,25 @@ function RegisterStep2({
               ))}
             </div>
             <p className="text-xs text-muted-foreground">
-              Seleccionadas: {formData.selectedSkills.length}
+              Seleccionadas: {selectedSkills.length}
             </p>
           </div>
 
           {/* Portfolio URL */}
           <div className="space-y-2">
-            <Label htmlFor="portfolio">URL de tu portfolio (opcional)</Label>
+            <Label htmlFor="portafolio_url">
+              URL de tu portfolio (opcional)
+            </Label>
             <Input
-              id="portfolio"
+              id="portafolio_url"
               type="url"
               placeholder="https://tu-portfolio.com"
-              value={formData.portfolio}
-              onChange={(e) => updateFormData("portfolio", e.target.value)}
+              value={portfolio}
+              onChange={(e) => setValue("portafolio_url", e.target.value)}
             />
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
-
-export default RegisterStep2;

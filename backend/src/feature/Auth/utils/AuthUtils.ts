@@ -31,8 +31,8 @@ export const createToken = (user: UserType): string => {
       created_at: user.created_at,
       bio: user.bio,
       avatar_url: user.avatar_url,
-      portafolio_url: user.portafolio_url
-      // ✅ NO incluyas password en el token por seguridad
+      portafolio_url: user.portafolio_url,
+      tecnologies: user.tecnologies
     },
     jwtSecret,
     { expiresIn: "24h" }

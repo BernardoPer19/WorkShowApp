@@ -1,8 +1,8 @@
-import { RegisterForm } from "../components/RegisterForm";
+import RegisterForm from "../components/RegisterPage";
 
 function RegisterPage() {
   return (
-    <main className="w-full h-screen flex justify-center items-center p-6 rounded-2xl shadow-xl space-y-6">
+    <main className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10 flex items-center justify-center p-4">
       <RegisterForm />
     </main>
   );

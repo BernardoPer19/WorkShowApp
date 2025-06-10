@@ -4,7 +4,6 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
-  console.log("🔍 VerifyUser middleware - Iniciando...");
 
   const token = req.cookies.access_token;
 
@@ -25,7 +24,6 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
     req.user = decoded;
     next();
   } catch (err) {
-    console.log("❌ Error al verificar token:", err);
     res.status(401).json({ message: "Token inválido o expirado" });
     return
   }
