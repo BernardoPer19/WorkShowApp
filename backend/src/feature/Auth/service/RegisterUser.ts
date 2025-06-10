@@ -1,4 +1,4 @@
-import { comparePassword, hashPassowrd } from "../utils/AuthUtils";
+import { comparePassword, hashPassword } from "../utils/AuthUtils";
 import { RegisterTypeSchema } from "../schemas/AuthSchea";
 import { prisma } from "../../../config/prisma";
 
@@ -12,16 +12,26 @@ export class AuthService {
       throw new Error("El correo ya está registrado");
     }
 
-    const hashingPassowrd = await hashPassowrd(data.password);
+    const hashingPassowrd = await hashPassword(data.password);
 
     const createUser = await prisma.users.create({
       data: {
+        user_id: data.user_id, // opcional
+        name: data.name,
+        lastname: data.lastname,
         username: data.username,
         email: data.email,
         password: hashingPassowrd,
         profession: data.profession,
+        toolSkills: {
+          set: data.toolSkills // asumiendo que en la base es tipo array o relación de strings
+        },
+        portafolio_url: data.portafolio_url, // opcional
+        avatar_url: data.avatar_url, // opcional
+        bio: data.bio // opcional
       },
     });
+
 
     return createUser;
   }

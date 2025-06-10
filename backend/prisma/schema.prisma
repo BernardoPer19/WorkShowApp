@@ -85,15 +85,20 @@ model Projects {
 }
 
 model Users {
-  user_id                             String        @id @default(uuid()) @db.Uuid
-  username                            String        @db.VarChar(50)
-  email                               String        @db.VarChar(50)
-  password                            String        @db.VarChar(100)
-  bio                                 String?       @default("")
-  avatar_url                          String?       @default("") @db.VarChar(200)
-  portafolio_url                      String?       @default("") @db.VarChar(200)
-  profession                          String?       @db.VarChar(30)
-  created_at                          DateTime      @default(now()) @db.Timestamptz(6)
+  user_id        String   @id @default(uuid()) @db.Uuid
+  name           String   @db.VarChar(50) // añadido
+  lastname       String   @db.VarChar(50) // añadido
+  username       String   @db.VarChar(50)
+  email          String   @db.VarChar(50)
+  password       String   @db.VarChar(100)
+  bio            String?  @default("") @db.VarChar(300)
+  avatar_url     String?  @default("") @db.VarChar(200)
+  portafolio_url String?  @default("") @db.VarChar(200)
+  profession     String?  @db.VarChar(30)
+  toolSkills     String[] // añadido como array simple
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+
+  // Relaciones
   collections                         Collections[]
   commets                             Commets[]
   follows_follows_follewer_idTousers  Follows?      @relation("follows_follewer_idTousers")
