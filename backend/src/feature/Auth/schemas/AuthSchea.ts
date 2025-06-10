@@ -16,7 +16,7 @@ export const UserSchema = z.object({
 
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
 
-  portaolio_url: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional(),
+  portafolio_url: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional(),
   avatar_url: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional(),
   bio: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional()
 });

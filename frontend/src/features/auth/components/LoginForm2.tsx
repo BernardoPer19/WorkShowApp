@@ -1,5 +1,3 @@
-import type React from "react";
-
 import { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import {
@@ -11,55 +9,38 @@ import {
 } from "../../../components/ui/card";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-import { Separator } from "../../../components/ui/separator";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Alert, AlertDescription } from "../../../components/ui/alert";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  Github,
-  Chrome,
-  Linkedin,
-  ArrowLeft,
-  Palette,
-  User,
-} from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowLeft, Palette } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema, type LoginType } from "../schema/AuthSchema";
+import { useAuth } from "../hooks/useAuth";
 
-export default function LoginPage2() {
+export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+  const navigate = useNavigate();
+  const { loginMutate, isLoginLoading, loginError } = useAuth().login;
 
-    // Simulate login
-    setTimeout(() => {
-      if (email && password) {
-        router("/dashboard");
-      } else {
-        setError("Por favor, completa todos los campos");
-      }
-      setIsLoading(false);
-    }, 1000);
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginType>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      username: undefined,
+      email: "",
+      password: "",
+    },
+  });
 
-  const handleSocialLogin = (provider: string) => {
-    setIsLoading(true);
-    // Simulate social login
-    setTimeout(() => {
-      router("/dashboard");
-    }, 1500);
+  const onSubmit = (data: LoginType) => {
+    loginMutate(data, {
+      onSuccess: () => navigate("/profile"),
+    });
   };
 
   return (
@@ -88,71 +69,20 @@ export default function LoginPage2() {
               Ingresa tus credenciales para acceder a tu cuenta
             </CardDescription>
           </CardHeader>
+
           <CardContent className="space-y-4">
-            {/* Social Login */}
-            <div className="grid grid-cols-3 gap-3">
-              <Button
-                variant="outline"
-                onClick={() => handleSocialLogin("google")}
-                disabled={isLoading}
-                className="w-full"
-              >
-                <Chrome className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleSocialLogin("github")}
-                disabled={isLoading}
-                className="w-full"
-              >
-                <Github className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleSocialLogin("linkedin")}
-                disabled={isLoading}
-                className="w-full"
-              >
-                <Linkedin className="h-4 w-4" />
-              </Button>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  O continúa con
-                </span>
-              </div>
-            </div>
-
-            {/* Error Alert */}
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
+            {loginError && (
+              <Alert variant="destructive" className="bg-red-600  text-white">
+                <AlertDescription>
+                  <p className="font-bold text-white">{loginError.message}</p>
+                </AlertDescription>
               </Alert>
             )}
 
-            {/* Login Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">User name (opcional)</Label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder="@pedrito123"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="pl-10"
-                    required
-                  />
-                </div>
-              </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              {/* Username (opcional) */}
 
+              {/* Email */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
@@ -161,14 +91,16 @@ export default function LoginPage2() {
                     id="email"
                     type="email"
                     placeholder="tu@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                     className="pl-10"
-                    required
+                    {...register("email")}
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
               </div>
 
+              {/* Password */}
               <div className="space-y-2">
                 <Label htmlFor="password">Contraseña</Label>
                 <div className="relative">
@@ -177,10 +109,8 @@ export default function LoginPage2() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                     className="pl-10 pr-10"
-                    required
+                    {...register("password")}
                   />
                   <Button
                     type="button"
@@ -196,17 +126,17 @@ export default function LoginPage2() {
                     )}
                   </Button>
                 </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
+              {/* Checkbox + link */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="remember"
-                    checked={rememberMe}
-                    onCheckedChange={(checked) =>
-                      setRememberMe(checked === true)
-                    }
-                  />
+                  <Checkbox id="remember" />
                   <Label htmlFor="remember" className="text-sm">
                     Recordarme
                   </Label>
@@ -219,17 +149,23 @@ export default function LoginPage2() {
                 </Link>
               </div>
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Iniciando sesión..." : "Iniciar Sesión"}
+              {/* Submit */}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoginLoading}
+              >
+                {isLoginLoading ? "Iniciando sesión..." : "Iniciar Sesión"}
               </Button>
             </form>
 
+            {/* Register link */}
             <div className="text-center text-sm">
               <span className="text-muted-foreground">
                 ¿No tienes una cuenta?{" "}
               </span>
               <Link
-                to="/auth/register2"
+                to="/register2"
                 className="text-primary hover:underline font-medium"
               >
                 Regístrate aquí
@@ -238,7 +174,7 @@ export default function LoginPage2() {
           </CardContent>
         </Card>
 
-        {/* Back to Home */}
+        {/* Back to home */}
         <div className="text-center mt-6">
           <Link
             to="/"

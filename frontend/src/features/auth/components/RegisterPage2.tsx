@@ -1,5 +1,3 @@
-import type React from "react";
-
 import { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import {
@@ -13,25 +11,19 @@ import {
 import { Alert, AlertDescription } from "../../../components/ui/alert";
 import { Progress } from "../../../components/ui/progress";
 
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  User,
-  Github,
-  Chrome,
-  Linkedin,
-  ArrowLeft,
-  ArrowRight,
-  Upload,
-  Check,
-  Palette,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Palette } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import RegisterStep1 from "./RegisterStep1";
 import RegisterStep2 from "./RegisterStep2";
 import RegisterStep3 from "./RegisterStep3";
+
+import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  UserWithConfirmPasswordSchema,
+  type RegisterType,
+} from "../schema/AuthSchema";
+import { useAuth } from "../hooks/useAuth";
 
 const steps = [
   {
@@ -51,45 +43,43 @@ export default function RegisterPage2() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const { registerMutate } = useAuth().register;
   const router = useNavigate();
 
-  // Form data
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    username: "",
-    specialty: "",
-    bio: "",
-    selectedSkills: [] as string[],
-    portfolio: "",
-    acceptTerms: false,
-    newsletter: true,
+  const form = useForm<RegisterType>({
+    resolver: zodResolver(UserWithConfirmPasswordSchema),
+    mode: "onBlur",
+    defaultValues: {
+      name: undefined,
+      lastname: undefined,
+      email: undefined,
+      username: undefined,
+      password: undefined,
+      confirmPassword: undefined,
+      profession: undefined,
+      toolSkills: [],
+      bio: undefined,
+      avatar_url: undefined,
+      portafolio_url: undefined,
+    },
   });
 
-  const updateFormData = (field: string, value: unknown) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  const watch = form.watch;
 
   const validateStep = (step: number) => {
     switch (step) {
       case 1:
         return (
-          formData.firstName &&
-          formData.lastName &&
-          formData.email &&
-          formData.password &&
-          formData.confirmPassword &&
-          formData.username &&
-          formData.password === formData.confirmPassword
+          watch("name") &&
+          watch("lastname") &&
+          watch("email") &&
+          watch("username") &&
+          watch("password")
         );
       case 2:
-        return formData.specialty && formData.selectedSkills.length > 0;
+        return watch("profession") && watch("toolSkills")?.length > 0;
       case 3:
-        return formData.acceptTerms;
+        return true; // Puedes agregar validación como watch("acceptTerms") si lo usas
       default:
         return false;
     }
@@ -108,20 +98,26 @@ export default function RegisterPage2() {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
     setError("");
   };
+  const handleSubmit = form.handleSubmit(
+    async (data) => {
+      if (!validateStep(3)) {
+        setError("Por favor, acepta los términos y condiciones");
+        return;
+      }
 
-  const handleSubmit = async () => {
-    if (!validateStep(3)) {
-      setError("Por favor, acepta los términos y condiciones");
-      return;
+      setIsLoading(true);
+      registerMutate(data);
+      console.log("FORM DATA:", data);
+
+      setTimeout(() => {
+        router("/login2");
+      }, 2000);
+    },
+    (errors) => {
+      console.log("❌ ZOD ERRORS:", errors);
+      setError("Revisa los campos del formulario.");
     }
-
-    setIsLoading(true);
-    // Simulate registration
-    setTimeout(() => {
-      router("/dashboard");
-    }, 2000);
-  };
-
+  );
   const progress = (currentStep / 3) * 100;
 
   return (
@@ -160,78 +156,67 @@ export default function RegisterPage2() {
           </CardHeader>
 
           <CardContent className="space-y-6">
-            {/* Error Alert */}
             {error && (
               <Alert variant="destructive">
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
 
-            {/* Step 1: Personal Information */}
-            <RegisterStep1
-              currentStep={currentStep}
-              formData={formData}
-              updateFormData={updateFormData}
-            />
+            <FormProvider {...form}>
+              <form onSubmit={handleSubmit}>
+                <RegisterStep1 currentStep={currentStep} form={form} />
+                <RegisterStep2 currentStep={currentStep} form={form} />
+                <RegisterStep3 currentStep={currentStep} />
 
-            {/* Step 2: Professional Profile */}
+                <div className="flex justify-between pt-6 border-t">
+                  <Button
+                    variant="outline"
+                    onClick={prevStep}
+                    disabled={currentStep === 1}
+                    type="button"
+                    className="flex items-center gap-2"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Anterior
+                  </Button>
 
-            <RegisterStep2
-              currentStep={currentStep}
-              formData={formData}
-              updateFormData={updateFormData}
-            />
-
-            <RegisterStep3
-              currentStep={currentStep}
-              formData={formData}
-              updateFormData={updateFormData}
-            />
-            {/* Navigation Buttons */}
-            <div className="flex justify-between pt-6 border-t">
-              <Button
-                variant="outline"
-                onClick={prevStep}
-                disabled={currentStep === 1}
-                className="flex items-center gap-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Anterior
-              </Button>
-
-              {currentStep < 3 ? (
-                <Button onClick={nextStep} className="flex items-center gap-2">
-                  Siguiente
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              ) : (
-                <Button
-                  onClick={handleSubmit}
-                  disabled={isLoading || !formData.acceptTerms}
-                  className="flex items-center gap-2"
-                >
-                  {isLoading ? "Creando cuenta..." : "Crear cuenta"}
-                  <Check className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
+                  {currentStep < 3 ? (
+                    <Button
+                      onClick={nextStep}
+                      type="button"
+                      className="flex items-center gap-2"
+                    >
+                      Siguiente
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className="flex items-center gap-2"
+                    >
+                      {isLoading ? "Creando cuenta..." : "Crear cuenta"}
+                      <Check className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </FormProvider>
           </CardContent>
         </Card>
 
-        {/* Login Link */}
         <div className="text-center mt-6">
           <span className="text-sm text-muted-foreground">
-            ¿Ya tienes una cuenta?{" "}
+            ¿Ya tienes una cuenta?
           </span>
           <Link
-            to="/auth/login"
+            to="/login2"
             className="text-sm text-primary hover:underline font-medium"
           >
             Inicia sesión aquí
           </Link>
         </div>
 
-        {/* Back to Home */}
         <div className="text-center mt-4">
           <Link
             to="/"

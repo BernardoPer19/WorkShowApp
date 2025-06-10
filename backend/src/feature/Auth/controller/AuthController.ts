@@ -13,7 +13,6 @@ export class AuthController {
       res.status(200).json(newUser);
       return
     } catch (error) {
-      console.error("Error en register:", error);
       if (error instanceof Error) {
         res.status(400).json({ message: error.message });
       } else {
@@ -43,7 +42,6 @@ export class AuthController {
       };
 
       const token = createToken(user);
-      console.log("🔑 Token creado para:", user.email); // Debug
 
       const options: CookieOptions = {
         httpOnly: true,
@@ -60,7 +58,6 @@ export class AuthController {
           bienvenida: `Bienvenido!! ${validatedData.email}`,
         });
     } catch (error) {
-      console.error("❌ Error en login:", error);
       if (error instanceof Error) {
         res.status(400).json({ message: error.message });
       } else {
@@ -71,7 +68,6 @@ export class AuthController {
 
   static async logoutController(_req: Request, res: Response) {
     try {
-      console.log("🚪 Cerrando sesión...");
       res.clearCookie("access_token", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -79,7 +75,6 @@ export class AuthController {
       });
       res.status(200).json({ message: "Sesión cerrada correctamente" });
     } catch (error) {
-      console.error("❌ Error en logout:", error);
       res.status(500).json({ message: "Error al cerrar sesión" });
     }
   }
@@ -87,7 +82,6 @@ export class AuthController {
   static async protectedRoute(req: Request, res: Response) {
     try {
       const user = req.user as UserType;
-      console.log("🔒 Ruta protegida - Usuario:", user?.email);
 
       if (!user) {
         res
@@ -97,7 +91,6 @@ export class AuthController {
       }
       res.status(200).json({ message: "Usuario autorizado", user });
     } catch (error) {
-      console.error("❌ Error en protectedRoute:", error);
       res.status(500).json({ message: "Error interno del servidor" });
     }
   }
@@ -105,12 +98,9 @@ export class AuthController {
   // ✅ MÉTODO PRINCIPAL CORREGIDO
   static getProfileData = async (req: Request, res: Response) => {
     try {
-      console.log("👤 getProfileData - Iniciando...");
       const user = req.user as UserType;
-      console.log("👤 Usuario decodificado:", user);
 
       if (!user) {
-        console.log("❌ No hay usuario en req.user");
         res.status(401).json({ message: "Usuario no autenticado" });
         return
       }
@@ -127,10 +117,8 @@ export class AuthController {
         created_at: user.created_at,
       };
 
-      console.log("✅ Enviando userData:", userData);
       res.status(200).json(userData);
     } catch (error) {
-      console.error("❌ Error en getProfileData:", error);
       res.status(500).json({ message: "Error al obtener datos del perfil" });
     }
   };

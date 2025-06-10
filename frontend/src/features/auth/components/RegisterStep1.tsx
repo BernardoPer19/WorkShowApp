@@ -1,83 +1,31 @@
 import type React from "react";
+import type { UseFormReturn } from "react-hook-form";
 
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { Separator } from "../../../components/ui/separator";
 import { Alert, AlertDescription } from "../../../components/ui/alert";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  User,
-  //   Github,
-  //   Chrome,
-  //   Linkedin,
-} from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { useState } from "react";
+import type { RegisterType } from "../schema/AuthSchema";
 
 type RegisterStep1Props = {
-  currentStep: number
-  formData: {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-    confirmPassword: string
-    username: string
-    specialty: string
-    bio: string
-    selectedSkills: string[]
-    portfolio: string
-    acceptTerms: boolean
-    newsletter: boolean
-    [key: string]: unknown
-  }
-  updateFormData: (field: string, value: unknown) => void
-}
+  currentStep: number;
+  form: UseFormReturn<RegisterType>;
+};
 
-function RegisterStep1({ currentStep, formData, updateFormData }: RegisterStep1Props) {
+function RegisterStep1({ currentStep, form }: RegisterStep1Props) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const password = form.watch("password");
+  const confirmPassword = form.watch("confirmPassword");
 
   return (
     <div>
       {currentStep === 1 && (
         <div className="space-y-4">
-          {/* Social Registration */}
-          {/* <div className="space-y-3">
-            <p className="text-sm text-muted-foreground text-center">
-              Regístrate rápidamente con:
-            </p>
-            <div className="grid grid-cols-3 gap-3">
-              <Button
-                variant="outline"
-                onClick={() => handleSocialRegister("google")}
-                disabled={isLoading}
-              >
-                <Chrome className="h-4 w-4 mr-2" />
-                Google
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleSocialRegister("github")}
-                disabled={isLoading}
-              >
-                <Github className="h-4 w-4 mr-2" />
-                GitHub
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleSocialRegister("linkedin")}
-                disabled={isLoading}
-              >
-                <Linkedin className="h-4 w-4 mr-2" />
-                LinkedIn
-              </Button>
-            </div>
-          </div> */}
-
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <Separator className="w-full" />
@@ -96,9 +44,7 @@ function RegisterStep1({ currentStep, formData, updateFormData }: RegisterStep1P
               <Input
                 id="firstName"
                 placeholder="Tu nombre"
-                value={formData.firstName}
-                onChange={(e) => updateFormData("firstName", e.target.value)}
-                required
+                {...form.register("name", { required: true })}
               />
             </div>
             <div className="space-y-2">
@@ -106,9 +52,7 @@ function RegisterStep1({ currentStep, formData, updateFormData }: RegisterStep1P
               <Input
                 id="lastName"
                 placeholder="Tu apellido"
-                value={formData.lastName}
-                onChange={(e) => updateFormData("lastName", e.target.value)}
-                required
+                {...form.register("lastname", { required: true })}
               />
             </div>
           </div>
@@ -121,10 +65,8 @@ function RegisterStep1({ currentStep, formData, updateFormData }: RegisterStep1P
                 id="email"
                 type="email"
                 placeholder="tu@email.com"
-                value={formData.email}
-                onChange={(e) => updateFormData("email", e.target.value)}
                 className="pl-10"
-                required
+                {...form.register("email", { required: true })}
               />
             </div>
           </div>
@@ -136,15 +78,13 @@ function RegisterStep1({ currentStep, formData, updateFormData }: RegisterStep1P
               <Input
                 id="username"
                 placeholder="tu_usuario"
-                value={formData.username}
-                onChange={(e) => updateFormData("username", e.target.value)}
                 className="pl-10"
-                required
+                {...form.register("username", { required: true })}
               />
             </div>
             <p className="text-xs text-muted-foreground">
               Este será tu URL: creativehub.com/
-              {formData.username || "tu_usuario"}
+              {form.getValues("username") || "tu_usuario"}
             </p>
           </div>
 
@@ -157,10 +97,8 @@ function RegisterStep1({ currentStep, formData, updateFormData }: RegisterStep1P
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  value={formData.password}
-                  onChange={(e) => updateFormData("password", e.target.value)}
                   className="pl-10 pr-10"
-                  required
+                  {...form.register("password", { required: true })}
                 />
                 <Button
                   type="button"
@@ -185,12 +123,8 @@ function RegisterStep1({ currentStep, formData, updateFormData }: RegisterStep1P
                   id="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  value={formData.confirmPassword}
-                  onChange={(e) =>
-                    updateFormData("confirmPassword", e.target.value)
-                  }
                   className="pl-10 pr-10"
-                  required
+                  {...form.register("confirmPassword", { required: true })}
                 />
                 <Button
                   type="button"
@@ -209,15 +143,11 @@ function RegisterStep1({ currentStep, formData, updateFormData }: RegisterStep1P
             </div>
           </div>
 
-          {formData.password &&
-            formData.confirmPassword &&
-            formData.password !== formData.confirmPassword && (
-              <Alert variant="destructive">
-                <AlertDescription>
-                  Las contraseñas no coinciden
-                </AlertDescription>
-              </Alert>
-            )}
+          {password && confirmPassword && password !== confirmPassword && (
+            <Alert variant="destructive">
+              <AlertDescription>Las contraseñas no coinciden</AlertDescription>
+            </Alert>
+          )}
         </div>
       )}
     </div>

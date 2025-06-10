@@ -26,10 +26,12 @@ export const LoginAuthRequest = async (data: LoginType) => {
     toast.success("¡Inicio de sesión exitoso!"); // ✅ Mensaje fijo
     return response.data;
   } catch (error) {
+    console.log(error);
+
     if (error instanceof AxiosError && error.response) {
       const backendMessage =
         error.response.data?.errors || error.response.data?.message;
-      toast.error(backendMessage); // ✅ Cambié success por error
+      toast.error(backendMessage);
       throw new Error(backendMessage);
     }
     throw new Error("Error desconocido al iniciar sesión.");
