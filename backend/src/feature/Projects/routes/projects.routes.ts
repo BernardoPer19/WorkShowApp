@@ -6,7 +6,7 @@ export const projectRoute = Router();
 
 projectRoute.get("/project", verifyUser, ProjectController.getProjects);
 projectRoute.post("/project", verifyUser, ProjectController.createProjects);
-projectRoute.get("/project", verifyUser, ProjectController.getProjectsByUsers);
+projectRoute.get("/project/:id", verifyUser, ProjectController.getProjectsByUsers);
 projectRoute.delete("/project/:id", verifyUser, ProjectController.deleteProject);
 projectRoute.put("/project/:id", verifyUser, ProjectController.updateProject);
 
