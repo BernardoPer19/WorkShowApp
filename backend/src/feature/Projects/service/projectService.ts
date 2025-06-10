@@ -41,13 +41,15 @@ export class projectService {
     return !!userExists;
   };
 
-  static searchProject  = async (project : string):Promise<boolean> =>{
-    const projectRes = await prisma.projects.findFirst({where : {project_id : project}})
-    if(!projectRes){
+  static searchProject = async (project: string): Promise<boolean> => {
+    const projectRes = await prisma.projects.findFirst({
+      where: { project_id: project },
+    });
+    if (!projectRes) {
       throw new Error("projecto no encontrado");
     }
     return !!projectRes;
-  }
+  };
 
   // publicos
   static getAllProjectsThatUser = async () => {
@@ -69,6 +71,16 @@ export class projectService {
     await this.categoriExists(input.category_id);
     await this.userExist(input.user_id);
 
+    const tecnologiId: [] = [];
+
+    for (const name of input.tecnologies) {
+      let tecnologi = await prisma.tecnologies.findUnique({ where: { name } });
+      if (!tecnologi) {
+        tecnologi = await prisma.tecnologies.create({ data: { name } });
+      }
+      tecnologi = await prisma.tecnologies.create({ data: { name } });
+    }
+
     const project = await prisma.projects.create({
       data: {
         title: input.title,
@@ -76,30 +88,45 @@ export class projectService {
         user_id: input.user_id!,
         category_id: input.category_id!,
         demo_url: input.demo_url!,
+        tecnologies: {
+          create: tecnologiId.map((id) => ({
+            tecnology: {
+              connect: { tecnology_id: id },
+            },
+          })),
+        },
+      },
+      include: {
+        tecnologies: {
+          include: {
+            tecnology: true,
+          },
+        },
       },
     });
 
     return {
       id: project.project_id,
-      title: project.title!,
-      description: project.description!,
-      user_id: project.user_id!,
-      category_id: project.category_id!,
-      demo_url: project.demo_url!,
-      createProject_at: project.createProject_at!,
+      title: project.title,
+      description: project.description,
+      user_id: project.user_id,
+      category_id: project.category_id,
+      demo_url: project.demo_url,
+      createProject_at: project.createProject_at,
+      tecnologies: project.tecnologies.map((t) => t.tecnology.name),
     };
   };
 
   static deleteProjects = async (project: string, user: string) => {
     await this.userExist(user);
-    await  this.searchProject(project);
+    await this.searchProject(project);
     const projects = await prisma.projects.delete({
       where: {
         user_id: user,
         project_id: project,
       },
     });
-   
+
     return projects;
   };
 
@@ -108,8 +135,7 @@ export class projectService {
     user: string,
     input: ProjectType
   ) => {
-
-   await  this.searchProject(project);
+    await this.searchProject(project);
     const projects = await prisma.projects.update({
       where: { project_id: project, user_id: user },
       data: {
