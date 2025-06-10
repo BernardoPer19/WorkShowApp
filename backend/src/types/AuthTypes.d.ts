@@ -12,11 +12,12 @@ export interface UserType {
   avatar_url?: string;
   profession: string;
   portafolio_url?: string;
+  tecnologies : string[]
 }
 
 export type registerUserType = Pick<
   UserType,
-  "username" | "email" | "password" | "created_at" | "profession" | "user_id"
+  "username" | "email" | "password" | "created_at" | "profession" | "user_id" | "tecnologies"
 >;
 
 export type loginUserType = Pick<UserType, "email" | "password" | "username">;

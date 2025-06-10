@@ -91,10 +91,12 @@ model Projects {
 
 
 model Tecnologies {
-  tecnology_id String              @id @default(uuid()) @db.Uuid
-  name         String              @unique @db.VarChar(50)
-  projects     ProjectTecnology[] 
+  tecnology_id   String             @id @default(uuid()) @db.Uuid
+  name           String             @unique @db.VarChar(50)
+  projects       ProjectTecnology[]
+  userTecnologies UserTecnology[]
 }
+
 
 
 model ProjectTecnology {
@@ -107,6 +109,16 @@ model ProjectTecnology {
   @@id([project_id, tecnology_id])
 }
 
+
+model UserTecnology {
+  user_id     String    @db.Uuid
+  tecnology_id String   @db.Uuid
+
+  user       Users      @relation(fields: [user_id], references: [user_id])
+  tecnology  Tecnologies @relation(fields: [tecnology_id], references: [tecnology_id])
+
+  @@id([user_id, tecnology_id])
+}
 model Users {
   user_id                             String        @id @default(uuid()) @db.Uuid
   username                            String        @db.VarChar(50)
@@ -123,4 +135,5 @@ model Users {
   follows_follows_following_idTousers Follows[]     @relation("follows_following_idTousers")
   likes                               Likes?
   projects                            Projects[]
+  userTecnologies UserTecnology[] 
 }

@@ -10,7 +10,7 @@ export class AuthController {
     try {
       const validateData = validateRegister(req.body);
       const newUser = await AuthService.registerUser(validateData);
-      await sendEmail(newUser.email , newUser.username)
+      await sendEmail(newUser.email, newUser.username);
 
       res.status(200).json(newUser);
     } catch (error) {
@@ -81,4 +81,14 @@ export class AuthController {
       res.status(500).json({ message: "Error al obtener usuario actual" });
     }
   };
+
+  static async getTecnologiesUser(req: Request, res: Response) {
+    const user = req.user as UserType;
+    if (!user || !user.user_id) {
+      res.status(401).json({ message: "Usuario no autorizado" });
+      return;
+    }
+    const getTecnologies = await AuthService.getUserProfile(user.user_id);
+    res.status(200).json({ data: getTecnologies });
+  }
 }

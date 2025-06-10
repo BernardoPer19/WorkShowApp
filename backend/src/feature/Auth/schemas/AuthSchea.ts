@@ -11,6 +11,8 @@ export const UserSchema = z.object({
     .string()
     .min(2, "La profesión debe tener al menos 2 caracteres")
     .optional(),
+
+  tecnologies : z.array(z.string())
 });
 
 const LoginSchema = z.object({

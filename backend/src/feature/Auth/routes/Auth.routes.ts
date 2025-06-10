@@ -9,3 +9,6 @@ AuthRouter.post("/auth/login", AuthController.loginUser);
 AuthRouter.get("/auth/logout", AuthController.logoutController);
 AuthRouter.get("/auth/protected", verifyUser, AuthController.protectedRoute);
 AuthRouter.get("/auth/currentUser", verifyUser, AuthController.getCurrentUser);
+AuthRouter.get("/auth/data" , verifyUser , AuthController.getTecnologiesUser);
+
+
