@@ -82,7 +82,7 @@ function RegisterStep1({ currentStep, form }: RegisterStep1Props) {
               />
             </div>
             <p className="text-xs text-muted-foreground">
-              Este será tu URL: creativehub.com/
+              Este será tu URL: WorkShow.com/
               {form.getValues("username") || "tu_usuario"}
             </p>
           </div>
