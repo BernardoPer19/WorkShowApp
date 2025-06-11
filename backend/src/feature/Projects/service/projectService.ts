@@ -71,14 +71,14 @@ export class projectService {
     await this.categoriExists(input.category_id);
     await this.userExist(input.user_id);
 
-    const tecnologiId: [] = [];
+    const tecnologiId: string[] = [];
 
     for (const name of input.tecnologies) {
       let tecnologi = await prisma.tecnologies.findUnique({ where: { name } });
       if (!tecnologi) {
         tecnologi = await prisma.tecnologies.create({ data: { name } });
       }
-      tecnologi = await prisma.tecnologies.create({ data: { name } });
+      tecnologiId.push(tecnologi.tecnology_id);
     }
 
     const project = await prisma.projects.create({
@@ -116,6 +116,7 @@ export class projectService {
       tecnologies: project.tecnologies.map((t) => t.tecnology.name),
     };
   };
+
 
   static deleteProjects = async (project: string, user: string) => {
     await this.userExist(user);
