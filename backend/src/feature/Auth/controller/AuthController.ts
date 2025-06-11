@@ -1,3 +1,4 @@
+// AuthController.ts
 import { CookieOptions, Request, Response } from "express";
 import { validateLogin, validateRegister } from "../schemas/AuthSchea";
 import { AuthService } from "../service/RegisterUser";
@@ -13,20 +14,35 @@ export class AuthController {
       await sendEmail(newUser.email, newUser.username);
 
       res.status(200).json(newUser);
+      return
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ message: error.message });
       }
     }
   }
+
+
   static loginUser = async (req: Request, res: Response) => {
     try {
       const validatedData = validateLogin(req.body);
 
-      const user = await AuthService.LoginService(
+      const userFromDB = await AuthService.LoginService(
         validatedData.email,
         validatedData.password
       );
+
+      const user: UserType = {
+        user_id: userFromDB.user_id,
+        username: userFromDB.username,
+        email: userFromDB.email,
+        profession: userFromDB.profession,
+        created_at: userFromDB.created_at,
+        bio: userFromDB.bio,
+        avatar_url: userFromDB.avatar_url,
+        portafolio_url: userFromDB.portafolio_url,
+        tecnologies: userFromDB.toolSkills || [],
+      };
 
       const token = createToken(user);
 
@@ -47,37 +63,66 @@ export class AuthController {
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ message: error.message });
-        throw new Error("Error al iniciar sesion");
+      } else {
+        res.status(500).json({ message: "Error interno del servidor" });
       }
     }
   };
 
   static async logoutController(_req: Request, res: Response) {
-    res.clearCookie("access_token", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
-    res.status(200).send({ message: "Sesión cerrada correctamente" });
+    try {
+      res.clearCookie("access_token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax", // ✅ Cambié de strict a lax para consistencia
+      });
+      res.status(200).json({ message: "Sesión cerrada correctamente" });
+    } catch (error) {
+      res.status(500).json({ message: "Error al cerrar sesión" });
+    }
   }
 
   static async protectedRoute(req: Request, res: Response) {
-    const user = req.user as UserType;
+    try {
+      const user = req.user as UserType;
 
-    if (!user) {
-      res
-        .status(400)
-        .json({ message: "Cuenta no autorizada para esta accion" });
+      if (!user) {
+        res
+          .status(401)
+          .json({ message: "Cuenta no autorizada para esta accion" });
+        return
+      }
+      res.status(200).json({ message: "Usuario autorizado", user });
+    } catch (error) {
+      res.status(500).json({ message: "Error interno del servidor" });
     }
-    res.status(200).json({ message: "Usuario autorizado", user });
   }
 
-  static getCurrentUser = (req: Request, res: Response) => {
+  // ✅ MÉTODO PRINCIPAL CORREGIDO
+  static getProfileData = async (req: Request, res: Response) => {
     try {
-      const user = req.user;
-      res.json(user);
+      const user = req.user as UserType;
+
+      if (!user) {
+        res.status(401).json({ message: "Usuario no autenticado" });
+        return
+      }
+
+      // ✅ Respuesta completa y consistente
+      const userData = {
+        user_id: user.user_id,
+        username: user.username,
+        email: user.email,
+        bio: user.bio,
+        profession: user.profession, // ✅ Cambiado de "profesion" a "profession"
+        avatar_url: user.avatar_url,
+        portafolio_url: user.portafolio_url,
+        created_at: user.created_at,
+      };
+
+      res.status(200).json(userData);
     } catch (error) {
-      res.status(500).json({ message: "Error al obtener usuario actual" });
+      res.status(500).json({ message: "Error al obtener datos del perfil" });
     }
   };
 

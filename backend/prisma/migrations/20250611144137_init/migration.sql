@@ -96,15 +96,38 @@ CREATE TABLE "ProjectTecnology" (
 );
 
 -- CreateTable
+CREATE TABLE "UserTecnology" (
+    "user_id" UUID NOT NULL,
+    "tecnology_id" UUID NOT NULL,
+
+    CONSTRAINT "UserTecnology_pkey" PRIMARY KEY ("user_id","tecnology_id")
+);
+
+-- CreateTable
+CREATE TABLE "SavedProject" (
+    "id" TEXT NOT NULL,
+    "userId" UUID NOT NULL,
+    "projectId" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+    "title" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "SavedProject_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Users" (
     "user_id" UUID NOT NULL,
+    "name" VARCHAR(50) NOT NULL,
+    "lastname" VARCHAR(50) NOT NULL,
     "username" VARCHAR(50) NOT NULL,
     "email" VARCHAR(50) NOT NULL,
     "password" VARCHAR(100) NOT NULL,
-    "bio" TEXT DEFAULT '',
+    "bio" VARCHAR(300) DEFAULT '',
     "avatar_url" VARCHAR(200) DEFAULT '',
     "portafolio_url" VARCHAR(200) DEFAULT '',
     "profession" VARCHAR(30),
+    "toolSkills" TEXT[],
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Users_pkey" PRIMARY KEY ("user_id")
@@ -115,6 +138,9 @@ CREATE UNIQUE INDEX "Collection_projects_collection_id_project_id_key" ON "Colle
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Tecnologies_name_key" ON "Tecnologies"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SavedProject_userId_projectId_key" ON "SavedProject"("userId", "projectId");
 
 -- AddForeignKey
 ALTER TABLE "Collection_projects" ADD CONSTRAINT "Collection_projects_collection_id_fkey" FOREIGN KEY ("collection_id") REFERENCES "Collections"("collection_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -157,3 +183,12 @@ ALTER TABLE "ProjectTecnology" ADD CONSTRAINT "ProjectTecnology_project_id_fkey"
 
 -- AddForeignKey
 ALTER TABLE "ProjectTecnology" ADD CONSTRAINT "ProjectTecnology_tecnology_id_fkey" FOREIGN KEY ("tecnology_id") REFERENCES "Tecnologies"("tecnology_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserTecnology" ADD CONSTRAINT "UserTecnology_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserTecnology" ADD CONSTRAINT "UserTecnology_tecnology_id_fkey" FOREIGN KEY ("tecnology_id") REFERENCES "Tecnologies"("tecnology_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SavedProject" ADD CONSTRAINT "SavedProject_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Users"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;

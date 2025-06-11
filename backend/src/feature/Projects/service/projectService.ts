@@ -123,6 +123,7 @@ export class projectService {
     };
   };
 
+
   static deleteProjects = async (project: string, user: string) => {
     await this.userExist(user);
     await this.searchProject(project);

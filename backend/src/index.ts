@@ -7,6 +7,8 @@ import { commentRoute } from "./feature/commets/routes/comments.routes";
 import { CollectionRouter } from "./feature/collections/routes/Colection.routes";
 import { errorHandler } from "./middlewares/errorHandler";
 import cors from 'cors'
+import { SaveRoutes } from "./feature/Save/routes/Save.routes";
+
 dotenv.config();
 const app = express();
 
@@ -23,8 +25,8 @@ app.use(cookieParser());
 app.use("/", AuthRouter);
 app.use("/", projectRoute);
 app.use("/", CollectionRouter);
-app.use("/",commentRoute)
-
+app.use("/", SaveRoutes);
+app.use("/", commentRoute);
 app.use(errorHandler);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
