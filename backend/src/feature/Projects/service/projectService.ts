@@ -57,9 +57,9 @@ export class projectService {
     return project;
   };
 
-  static getProjectThatUser = async (user: string) => {
+  static getProjectThatUser = async (proyect: string) => {
     const project = await prisma.projects.findMany({
-      where: { user_id: user },
+      where: { project_id: proyect },
     });
     return project;
   };
