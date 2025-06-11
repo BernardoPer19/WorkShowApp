@@ -9,7 +9,7 @@ import {
 import { getCurrentUser, logOutRequest } from "../api/AuthRequest";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import type { UserType } from "../types/AuthTypes";
+import type { UserType } from "../schema/AuthSchema";
 
 interface AuthContextType {
   logout: () => void;
@@ -42,7 +42,7 @@ const AuthContextProvider = ({ children }: ChildrenType) => {
       queryClient.removeQueries({ queryKey: ["currentUser"] });
 
       setIsAuthenticated(false);
-      navigate("/login");
+      navigate("/");
       toast.success("¡Sesión cerrada exitosamente!");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);

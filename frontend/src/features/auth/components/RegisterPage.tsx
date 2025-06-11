@@ -110,7 +110,7 @@ export default function RegisterPage2() {
       console.log("FORM DATA:", data);
 
       setTimeout(() => {
-        router("/login2");
+        router("/auth/login");
       }, 2000);
     },
     (errors) => {
@@ -121,7 +121,7 @@ export default function RegisterPage2() {
   const progress = (currentStep / 3) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10 flex items-center justify-center p-4">
+    <div className="">
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center mb-8">
@@ -129,9 +129,9 @@ export default function RegisterPage2() {
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Palette className="h-5 w-5" />
             </div>
-            <span className="text-2xl font-bold">CreativeHub</span>
+            <span className="text-2xl font-bold">WorkShow</span>
           </Link>
-          <h1 className="text-3xl font-bold mb-2">Únete a CreativeHub</h1>
+          <h1 className="text-3xl font-bold mb-2">Únete a WorkShow</h1>
           <p className="text-muted-foreground">
             Crea tu cuenta y comienza a mostrar tu talento
           </p>
@@ -210,7 +210,7 @@ export default function RegisterPage2() {
             ¿Ya tienes una cuenta?
           </span>
           <Link
-            to="/login2"
+            to="/auth/login"
             className="text-sm text-primary hover:underline font-medium"
           >
             Inicia sesión aquí

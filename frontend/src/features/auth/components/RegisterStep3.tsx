@@ -97,7 +97,7 @@ export default function RegisterStep3({
             <Link to="/privacy" className="text-primary hover:underline">
               Política de Privacidad
             </Link>{" "}
-            de CreativeHub
+            de WorkShow
           </Label>
         </div>
 

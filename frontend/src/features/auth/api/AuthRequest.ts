@@ -1,5 +1,5 @@
 // AuthRequest.ts
-import type { LoginType, RegisterType } from "../schema/AuthSchema";
+import {type LoginType, type RegisterType } from "../schema/AuthSchema";
 import axios from "../../../utils/axios";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
@@ -12,7 +12,7 @@ export const RegisterAuth = async (data: RegisterType) => {
   } catch (error) {
     console.log(error);
     if (error instanceof AxiosError && error.response) {
-      
+
       const backendMessage =
         error.response.data?.errors || error.response.data?.message;
       toast.error(backendMessage);
@@ -50,13 +50,13 @@ export const logOutRequest = async () => {
   }
 };
 
-// ✅ FUNCIÓN PRINCIPAL CORREGIDA
+
 export const getCurrentUser = async () => {
   try {
     const response = await axios.get("/auth/currentUser");
+    
     return response.data;
   } catch (error) {
-
     if (error instanceof AxiosError && error.response) {
       const backendMessage =
         error.response.data?.errors || error.response.data?.message;
