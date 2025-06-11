@@ -11,8 +11,14 @@ const projectSchema = z.object({
   demo_url: z
     .string()
     .min(1, { message: "debes adjuntar una url al proyecto" }),
-  tecnologies  : z.array(z.string()).optional() 
-
+  tecnologies: z.array(z.string()).optional(),
+  duration: z
+    .string()
+    .min(1, { message: "proporciona el tiempo de duracion del proyecto" }),
+  desCorta: z
+    .string()
+    .min(1, { message: "esribe una breve descripcio nde tu proyecto " }),
+  images: z.array(z.string()).min(1, { message: "proporciona al menos una imagen del proyecto" }),
 });
 
 export type projectSchemaType = z.infer<typeof projectSchema>;

@@ -71,23 +71,26 @@ export class projectService {
     await this.categoriExists(input.category_id);
     await this.userExist(input.user_id);
 
-    const tecnologiId: [] = [];
+    const tecnologiId: string[] = [];
 
     for (const name of input.tecnologies) {
       let tecnologi = await prisma.tecnologies.findUnique({ where: { name } });
       if (!tecnologi) {
         tecnologi = await prisma.tecnologies.create({ data: { name } });
       }
-      tecnologi = await prisma.tecnologies.create({ data: { name } });
+      tecnologiId.push(tecnologi.tecnology_id);
     }
 
     const project = await prisma.projects.create({
       data: {
         title: input.title,
         description: input.description,
-        user_id: input.user_id!,
-        category_id: input.category_id!,
-        demo_url: input.demo_url!,
+        user_id: input.user_id,
+        category_id: input.category_id,
+        demo_url: input.demo_url,
+        duration: input.duration,
+        descCorta: input.desCorta,
+        images: input.images!,
         tecnologies: {
           create: tecnologiId.map((id) => ({
             tecnology: {
@@ -100,13 +103,13 @@ export class projectService {
         tecnologies: {
           include: {
             tecnology: true,
-          },
+          }, 
         },
       },
     });
 
     return {
-      id: project.project_id,
+      project_id: project.project_id,
       title: project.title,
       description: project.description,
       user_id: project.user_id,
@@ -114,9 +117,9 @@ export class projectService {
       demo_url: project.demo_url,
       createProject_at: project.createProject_at,
       tecnologies: project.tecnologies.map((t) => t.tecnology.name),
-      duration : project.duration,
-      desCorta : project.descCorta
-      
+      duration: project.duration,
+      desCorta: project.descCorta,
+      images: project.images,
     };
   };
 
@@ -150,7 +153,7 @@ export class projectService {
     return projects;
   };
 
-  static getByCategories = (categorie : string) =>{
+  // static getByCategories = (categorie : string) =>{
 
-  }
+  // }
 }
