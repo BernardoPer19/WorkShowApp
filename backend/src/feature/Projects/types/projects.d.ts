@@ -7,6 +7,8 @@ export type ProjectType = {
   demo_url: string;
   createProject_at: Date;
   tecnologies : string[]
+  duration : string,
+  desCorta : string
 };
 
 export type CreateProjectType = Omit<ProjectType, "id" | "createProject_at">;

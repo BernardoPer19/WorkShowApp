@@ -69,71 +69,70 @@ model Project_media {
 }
 
 model Projects {
-  project_id          String                @id @default(uuid()) @db.Uuid
-  title               String                @db.VarChar(50)
-  description         String                @db.VarChar(250)
-  user_id             String                @db.Uuid
-  category_id         String                @db.Uuid
-  demo_url            String                @db.VarChar(200)
-  createProject_at    DateTime              @default(now()) @db.Timetz(6)
+  project_id       String   @id @default(uuid()) @db.Uuid
+  title            String   @db.VarChar(50)
+  description      String   @db.VarChar(250)
+  user_id          String   @db.Uuid
+  category_id      String   @db.Uuid
+  demo_url         String   @db.VarChar(200)
+  createProject_at DateTime @default(now()) @db.Timetz(6)
+  duration         String   @db.VarChar(50)
+  descCorta        String   @db.VarChar(150)
+  images           String[]
 
-  categories          Categories            @relation(fields: [category_id], references: [category_id])
-  users               Users                 @relation(fields: [user_id], references: [user_id])
+  categories Categories @relation(fields: [category_id], references: [category_id])
+  users      Users      @relation(fields: [user_id], references: [user_id])
 
   project_media       Project_media[]
   collection_projects Collection_projects[]
   commets             Commets[]
   likes               Likes[]
 
-  tecnologies         ProjectTecnology[] 
+  tecnologies ProjectTecnology[]
 }
-
-
 
 model Tecnologies {
-  tecnology_id   String             @id @default(uuid()) @db.Uuid
-  name           String             @unique @db.VarChar(50)
-  projects       ProjectTecnology[]
+  tecnology_id    String             @id @default(uuid()) @db.Uuid
+  name            String             @unique @db.VarChar(50)
+  projects        ProjectTecnology[]
   userTecnologies UserTecnology[]
 }
-
-
 
 model ProjectTecnology {
   project_id   String @db.Uuid
   tecnology_id String @db.Uuid
 
-  project      Projects    @relation(fields: [project_id], references: [project_id])
-  tecnology    Tecnologies @relation(fields: [tecnology_id], references: [tecnology_id])
+  project   Projects    @relation(fields: [project_id], references: [project_id])
+  tecnology Tecnologies @relation(fields: [tecnology_id], references: [tecnology_id])
 
   @@id([project_id, tecnology_id])
 }
 
-
 model UserTecnology {
-  user_id     String    @db.Uuid
-  tecnology_id String   @db.Uuid
+  user_id      String @db.Uuid
+  tecnology_id String @db.Uuid
 
-  user       Users      @relation(fields: [user_id], references: [user_id])
-  tecnology  Tecnologies @relation(fields: [tecnology_id], references: [tecnology_id])
+  user      Users       @relation(fields: [user_id], references: [user_id])
+  tecnology Tecnologies @relation(fields: [tecnology_id], references: [tecnology_id])
 
   @@id([user_id, tecnology_id])
 }
+
 model Users {
-  user_id                             String        @id @default(uuid()) @db.Uuid
-  username                            String        @db.VarChar(50)
-  email                               String        @db.VarChar(50)
-  password                            String        @db.VarChar(100)
-  bio                                 String?       @default("")
-  avatar_url                          String?       @default("") @db.VarChar(200)
-  portafolio_url                      String?       @default("") @db.VarChar(200)
-  profession                          String?       @db.VarChar(30)
-  created_at                          DateTime      @default(now()) @db.Timestamptz(6)
+  user_id                             String          @id @default(uuid()) @db.Uuid
+  username                            String          @db.VarChar(50)
+  email                               String          @db.VarChar(50)
+  password                            String          @db.VarChar(100)
+  bio                                 String?         @default("")
+  avatar_url                          String?         @default("") @db.VarChar(200)
+  portafolio_url                      String?         @default("") @db.VarChar(200)
+  profession                          String?         @db.VarChar(30)
+  created_at                          DateTime        @default(now()) @db.Timestamptz(6)
   collections                         Collections[]
   commets                             Commets[]
-  follows_follows_follewer_idTousers  Follows?      @relation("follows_follewer_idTousers")
-  follows_follows_following_idTousers Follows[]     @relation("follows_following_idTousers")
+  follows_follows_follewer_idTousers  Follows?        @relation("follows_follewer_idTousers")
+  follows_follows_following_idTousers Follows[]       @relation("follows_following_idTousers")
   likes                               Likes?
   projects                            Projects[]
-  userTecnologies UserTecnology[] 
+  userTecnologies                     UserTecnology[]
 }

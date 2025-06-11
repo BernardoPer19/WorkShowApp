@@ -114,6 +114,9 @@ export class projectService {
       demo_url: project.demo_url,
       createProject_at: project.createProject_at,
       tecnologies: project.tecnologies.map((t) => t.tecnology.name),
+      duration : project.duration,
+      desCorta : project.descCorta
+      
     };
   };
 
@@ -146,4 +149,8 @@ export class projectService {
     });
     return projects;
   };
+
+  static getByCategories = (categorie : string) =>{
+
+  }
 }
