@@ -3,18 +3,21 @@ export type uuidType =
   | `${string}-${string}-${string}-${string}-${string}`
   | undefined;
 
-export interface UserType {
-  user_id: string;
+export type UserType = {
+  name: string;
+  tecnologies: string[];
+  name: string
+  lastname: string
   username: string;
   email: string;
-  profession: string | null;
+  password: string;
+  profession: string;
+  user_id?: string;
+  bio?: string;
+  avatar_url?: string;
+  portafolio_url?: string;
   created_at: Date;
-  bio: string | null;
-  password?: string;
-  avatar_url: string | null;
-  portafolio_url: string | null;
-  tecnologies: string[]
-}
+};
 export type registerUserType = Pick<
   UserType,
   "username" | "email" | "password" | "created_at" | "profession" | "user_id" | "tecnologies"
