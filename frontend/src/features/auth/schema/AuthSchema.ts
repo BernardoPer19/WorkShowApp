@@ -10,7 +10,8 @@ export const UserSchema = z.object({
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
   portafolio_url: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional(),
   avatar_url: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional(),
-  bio: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional()
+  bio: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional(),
+  created_at: z.string().datetime({ message: "Fecha de creación inválida" }).optional()
 });
 
 // Extendemos con confirmPassword y validamos que coincida con password
@@ -32,6 +33,16 @@ export const LoginSchema = z.object({
 export type RegisterType = z.infer<typeof UserWithConfirmPasswordSchema>;
 
 export type LoginType = z.infer<typeof LoginSchema>;
+
+
+
+
+export const CurrentUserSchema = UserSchema.omit({
+  password: true,
+});
+
+export type UserType = z.infer<typeof CurrentUserSchema>;
+
 
 export const validateLogin = (input: unknown): LoginType => {
   return LoginSchema.parse(input);

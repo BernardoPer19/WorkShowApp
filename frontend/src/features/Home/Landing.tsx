@@ -524,7 +524,7 @@ export default function HomePage() {
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <Palette className="h-4 w-4" />
                   </div>
-                  <span className="text-xl font-bold">CreativeHub</span>
+                  <span className="text-xl font-bold">WorkShow</span>
                 </div>
                 <p className="text-gray-400 text-sm">
                   La plataforma líder para freelancers creativos. Comparte,
@@ -649,7 +649,7 @@ export default function HomePage() {
 
             <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-400 text-sm">
-                © 2024 CreativeHub. Todos los derechos reservados.
+                © 2024 WorkShow. Todos los derechos reservados.
               </p>
               <div className="flex gap-4 mt-4 md:mt-0">
                 <Link

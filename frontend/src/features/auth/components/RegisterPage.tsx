@@ -129,9 +129,9 @@ export default function RegisterPage2() {
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Palette className="h-5 w-5" />
             </div>
-            <span className="text-2xl font-bold">CreativeHub</span>
+            <span className="text-2xl font-bold">WorkShow</span>
           </Link>
-          <h1 className="text-3xl font-bold mb-2">Únete a CreativeHub</h1>
+          <h1 className="text-3xl font-bold mb-2">Únete a WorkShow</h1>
           <p className="text-muted-foreground">
             Crea tu cuenta y comienza a mostrar tu talento
           </p>
