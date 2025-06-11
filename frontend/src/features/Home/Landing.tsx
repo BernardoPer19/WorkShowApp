@@ -194,7 +194,7 @@ export default function HomePage() {
                     className="h-12 px-8"
                     // onClick={() => setIsLoggedIn(true)}
                   >
-                    Únete como Freelancer
+                    <Link to={"/auth/register"}>Únete como Freelancer</Link>
                   </Button>
                 </div>
 

@@ -110,7 +110,7 @@ export default function RegisterPage2() {
       console.log("FORM DATA:", data);
 
       setTimeout(() => {
-        router("/login2");
+        router("/auth/login");
       }, 2000);
     },
     (errors) => {
@@ -121,7 +121,7 @@ export default function RegisterPage2() {
   const progress = (currentStep / 3) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10 flex items-center justify-center p-4">
+    <div className="">
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center mb-8">
@@ -210,7 +210,7 @@ export default function RegisterPage2() {
             ¿Ya tienes una cuenta?
           </span>
           <Link
-            to="/login2"
+            to="/auth/login"
             className="text-sm text-primary hover:underline font-medium"
           >
             Inicia sesión aquí
