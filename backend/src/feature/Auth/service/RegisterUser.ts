@@ -1,6 +1,7 @@
 import { comparePassword, hashPassword } from "../utils/AuthUtils";
 import { RegisterTypeSchema } from "../schemas/AuthSchea";
 import { prisma } from "../../../config/prisma";
+import { UserType } from "@/feature/collections/schemas/Schema";
 
 export class AuthService {
   static async registerUser(data: RegisterTypeSchema) {
@@ -77,16 +78,21 @@ export class AuthService {
     return user;
   }
 
-  static async getUserProfile(userId: string) {
+  static async getUserProfile(userId: string): Promise<UserType> {
     const user = await prisma.users.findUnique({
       where: { user_id: userId },
       select: {
+        user_id: true,
+        name: true,
+        lastname: true,
         username: true,
         email: true,
         profession: true,
+        password: true,
         bio: true,
         avatar_url: true,
         portafolio_url: true,
+        created_at: true,
         userTecnologies: {
           select: {
             tecnology: {
@@ -101,9 +107,23 @@ export class AuthService {
 
     if (!user) throw new Error("Usuario no encontrado");
 
-    const technologiesNames = user.userTecnologies.map((t) => t.tecnology.name);
-    const { userTecnologies, ...userWithoutTecnologies } = user;
+    const tecnologies: string[] = user.userTecnologies.map(
+      (ut: any) => ut.tecnology.name
+    );
 
-    return { ...userWithoutTecnologies, tecnologies: technologiesNames };
+    return {
+      user_id: user.user_id,
+      name: user.name,
+      lastname: user.lastname,
+      username: user.username,
+      email: user.email,
+      tecnologies,
+      profession: user.profession ?? "",
+      password: "", // Nunca retornar la contraseña real
+      created_at: user.created_at,
+      portafolio_url: user.portafolio_url ?? undefined,
+      avatar_url: user.avatar_url ?? undefined,
+      bio: user.bio ?? undefined,
+    };
   }
 }

@@ -27,23 +27,19 @@ export class AuthController {
     try {
       const validatedData = validateLogin(req.body);
 
+      // Paso 1: Validar email y contraseña
       const userFromDB = await AuthService.LoginService(
         validatedData.email,
         validatedData.password
       );
 
-      const user: UserType = {
-        user_id: userFromDB.user_id,
-        username: userFromDB.username,
-        email: userFromDB.email,
-        profession: userFromDB.profession,
-        created_at: userFromDB.created_at,
-        bio: userFromDB.bio,
-        avatar_url: userFromDB.avatar_url,
-        portafolio_url: userFromDB.portafolio_url,
-        tecnologies: userFromDB.toolSkills || [],
-      };
+      const userProfile = await AuthService.getUserProfile(userFromDB.user_id);
 
+      const user: UserType = {
+        ...userProfile,
+        password: "",
+        created_at: userProfile.created_at ?? new Date(),
+      };
       const token = createToken(user);
 
       const options: CookieOptions = {
@@ -58,7 +54,7 @@ export class AuthController {
         .cookie("access_token", token, options)
         .json({
           message: "El usuario inició sesión con éxito!",
-          bienvenida: `Bienvenido!! ${validatedData.email}`,
+          user, // Le enviamos el objeto UserType limpio al frontend
         });
     } catch (error) {
       if (error instanceof Error) {
@@ -102,25 +98,14 @@ export class AuthController {
   static getProfileData = async (req: Request, res: Response) => {
     try {
       const user = req.user as UserType;
-
+      
       if (!user) {
         res.status(401).json({ message: "Usuario no autenticado" });
         return
       }
 
-      // ✅ Respuesta completa y consistente
-      const userData = {
-        user_id: user.user_id,
-        username: user.username,
-        email: user.email,
-        bio: user.bio,
-        profession: user.profession, // ✅ Cambiado de "profesion" a "profession"
-        avatar_url: user.avatar_url,
-        portafolio_url: user.portafolio_url,
-        created_at: user.created_at,
-      };
 
-      res.status(200).json(userData);
+      res.status(200).json(user);
     } catch (error) {
       res.status(500).json({ message: "Error al obtener datos del perfil" });
     }
