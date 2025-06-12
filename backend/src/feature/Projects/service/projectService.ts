@@ -154,7 +154,10 @@ export class projectService {
     return projects;
   };
 
-  // static getByCategories = (categorie : string) =>{
+  static getByCategories = async  ()=>{
+    const categorie = await prisma.categories.findMany();
+    return categorie;
+  }
 
-  // }
+  
 }
