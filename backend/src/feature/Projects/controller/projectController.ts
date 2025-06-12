@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { catchAsync } from "@/middlewares/catchAsync";
-import {projectService} from "../service/projectService";
+import { projectService } from "../service/projectService";
 import { validateProject } from "../schemas/projectSchema";
 import { CreateProjectType, ProjectType } from "../types/projects";
 
@@ -29,7 +29,10 @@ export class ProjectController {
         user_id: req.user!.user_id,
         category_id: vali.category,
         demo_url: vali.demo_url,
-        tecnologies : vali.tecnologies
+        tecnologies: vali.tecnologies,
+        duration: vali.duration,
+        desCorta: vali.desCorta,
+        images: vali.images,
       } as CreateProjectType);
       res.status(201).json({
         message: "se creo el proyecto con exito",
@@ -42,7 +45,10 @@ export class ProjectController {
     async (req: Request, res: Response, _next: NextFunction) => {
       const user = req.user;
       const project = req.params.id;
-      const result = await projectService.deleteProjects(project, user?.user_id!);
+      const result = await projectService.deleteProjects(
+        project,
+        user?.user_id!
+      );
       res
         .status(201)
         .json({ message: "se elimino el proyecto con exito", result });

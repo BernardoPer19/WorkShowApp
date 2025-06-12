@@ -69,7 +69,6 @@ export class projectService {
     }));
   };
 
-
   static getProjectThatUser = async (userId: string) => {
     const projects = await prisma.projects.findMany({
       where: { user_id: userId },
@@ -110,9 +109,12 @@ export class projectService {
       data: {
         title: input.title,
         description: input.description,
-        user_id: input.user_id!,
-        category_id: input.category_id!,
-        demo_url: input.demo_url!,
+        user_id: input.user_id,
+        category_id: input.category_id,
+        demo_url: input.demo_url,
+        duration: input.duration,
+        descCorta: input.desCorta,
+        images: input.images!,
         tecnologies: {
           create: tecnologiId.map((id) => ({
             tecnology: {
@@ -131,7 +133,7 @@ export class projectService {
     });
 
     return {
-      id: project.project_id,
+      project_id: project.project_id,
       title: project.title,
       description: project.description,
       user_id: project.user_id,
@@ -139,6 +141,9 @@ export class projectService {
       demo_url: project.demo_url,
       createProject_at: project.createProject_at,
       tecnologies: project.tecnologies.map((t) => t.tecnology.name),
+      duration: project.duration,
+      desCorta: project.descCorta,
+      images: project.images,
     };
   };
 
@@ -172,4 +177,8 @@ export class projectService {
     });
     return projects;
   };
+
+  // static getByCategories = (categorie : string) =>{
+
+  // }
 }
