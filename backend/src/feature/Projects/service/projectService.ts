@@ -57,7 +57,7 @@ export class projectService {
       include: {
         tecnologies: {
           select: {
-            tecnology: true, // asegurate que este campo exista
+            tecnology: true, 
           },
         },
       },
@@ -75,7 +75,7 @@ export class projectService {
       include: {
         tecnologies: {
           select: {
-            tecnology: true, // ← este campo debe existir
+            tecnology: true, 
           },
         },
       },
@@ -83,7 +83,7 @@ export class projectService {
 
     return projects.map((p) => ({
       ...p,
-      tecnologies: p.tecnologies.map((t) => t.tecnology.name), // ← esto devolverá un string[]
+      tecnologies: p.tecnologies.map((t) => t.tecnology.name),  
     }));
   };
 
@@ -183,5 +183,22 @@ export class projectService {
     return categorie;
   }
 
-  
+ static async getCategoriesToFilter(categoria: string) {
+    const result = await prisma.$queryRaw`
+      SELECT 
+        p.title, 
+        p.description, 
+        p.duration,
+        p."descCorta",
+        u.name AS user_name,
+        s.name AS subcategoria_del_proyecto,
+        p.images
+      FROM "Projects" p
+      INNER JOIN "Users" u ON p.user_id = u.user_id
+      INNER JOIN "Categories" c ON p.category_id = c.category_id
+      INNER JOIN "Subcategory" s ON c.category_id = s.category_id
+      WHERE c.name = ${categoria};
+    `;
+    return result;
+  }
 }
