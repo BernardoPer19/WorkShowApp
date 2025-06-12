@@ -93,7 +93,6 @@ const collections = [
 export default function ProfilePage() {
   const { currentUser } = useAuthContext();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  console.log(currentUser);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50  m-auto">
