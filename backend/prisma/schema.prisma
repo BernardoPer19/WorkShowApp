@@ -76,6 +76,9 @@ model Projects {
   category_id      String   @db.Uuid
   demo_url         String   @db.VarChar(200)
   createProject_at DateTime @default(now()) @db.Timetz(6)
+  duration         String   @db.VarChar(50)
+  descCorta        String   @db.VarChar(150)
+  images           String[]
 
   categories Categories @relation(fields: [category_id], references: [category_id])
   users      Users      @relation(fields: [user_id], references: [user_id])
@@ -85,9 +88,12 @@ model Projects {
   commets             Commets[]
   likes               Likes[]
 
-  tecnologies  ProjectTecnology[]
+  tecnologies ProjectTecnology[]
   SavedProject SavedProject[]
 }
+
+
+
 
 model Tecnologies {
   tecnology_id    String             @id @default(uuid()) @db.Uuid
