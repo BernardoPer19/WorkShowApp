@@ -12,3 +12,9 @@ projectRoute.post("/project", verifyUser, ProjectController.createProjects);
 projectRoute.delete("/project/:id", verifyUser, ProjectController.deleteProject);
 projectRoute.put("/project/:id", verifyUser, ProjectController.updateProject);
 
+
+projectRoute.get("/project/categori", verifyUser, ProjectController.getAllCategories);
+projectRoute.get("/project/categori", verifyUser, ProjectController.getAlProjectsThatCategory);
+
+
+
