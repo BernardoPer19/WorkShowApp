@@ -53,16 +53,40 @@ export class projectService {
 
   // publicos
   static getAllProjectsThatUser = async () => {
-    const project = await prisma.projects.findMany();
-    return project;
+    const projects = await prisma.projects.findMany({
+      include: {
+        tecnologies: {
+          select: {
+            tecnology: true, // asegurate que este campo exista
+          },
+        },
+      },
+    });
+
+    return projects.map((p) => ({
+      ...p,
+      tecnologies: p.tecnologies.map((t) => t.tecnology.name),
+    }));
   };
 
-  static getProjectThatUser = async (proyect: string) => {
-    const project = await prisma.projects.findMany({
-      where: { project_id: proyect },
+  static getProjectThatUser = async (userId: string) => {
+    const projects = await prisma.projects.findMany({
+      where: { user_id: userId },
+      include: {
+        tecnologies: {
+          select: {
+            tecnology: true, // ← este campo debe existir
+          },
+        },
+      },
     });
-    return project;
+
+    return projects.map((p) => ({
+      ...p,
+      tecnologies: p.tecnologies.map((t) => t.tecnology.name), // ← esto devolverá un string[]
+    }));
   };
+
 
   static createProject = async (
     input: CreateProjectType
@@ -103,7 +127,7 @@ export class projectService {
         tecnologies: {
           include: {
             tecnology: true,
-          }, 
+          },
         },
       },
     });

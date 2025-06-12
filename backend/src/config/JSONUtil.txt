@@ -34,3 +34,162 @@ añadir proyectos a la coleccion:
        "product_id" : "a5d3a5a3-110a-4747-bc2b-f3d350d9f1e3",
        "collection_id" : "c82dae61-eb42-4792-a34e-5ef3602d9557"
 }
+
+
+
+
+[
+  {"category_id": "9b5f7e2a-3c10-4a6f-9f44-d7bfb9e2a4e1", "name": "Desarrollo"},
+  {"category_id": "0a8d4f3c-5e72-4b9e-b5f2-f9e2c7d6a1b3", "name": "Diseño"},
+  {"category_id": "3c5e1f7b-6a43-4d89-8e6f-7e9d4a2c5b6f", "name": "Marketing"},
+  {"category_id": "1e4f9b6d-8a21-4c5f-b7d8-1a9f2c3e4b5d", "name": "DevOps"},
+  {"category_id": "7f2c8e1a-9d43-4b75-a8d7-2f4e6b9c3d1f", "name": "Data Science"},
+  {"category_id": "2d7a1f4e-bc63-45a9-9d82-4f6e7a8c9b01", "name": "Seguridad"},
+  {"category_id": "5a9e7d2c-4b83-476f-92a0-1c3e5d7b9f24", "name": "Educación"},
+  {"category_id": "4b1d6c7a-9f53-40a2-8d1e-3a7f8e2c5b69", "name": "Salud"},
+  {"category_id": "8f2b3a9e-7d14-4c98-b5f0-9e7c2a3d1b65", "name": "Finanzas"},
+  {"category_id": "6c3e8d1f-b59a-4e07-a2f9-8b0d5c7e4a31", "name": "Entretenimiento"}
+]
+
+
+
+[
+  {
+    "project_id": "e3d6a89b-7f24-4c9e-b1d5-4a7f8c2e9d50",
+    "title": "Plataforma para freelancers",
+    "description": "Una red social para conectar freelancers con clientes. Tiene chat en tiempo real, sistema de reseñas y dashboard personalizado.",
+    "user_id": "",
+    "category_id": "9b5f7e2a-3c10-4a6f-9f44-d7bfb9e2a4e1",
+    "demo_url": "https://freelancehub.vercel.app"
+  },
+  {
+    "project_id": "b7c5d8e2-9a41-4d6f-b3e7-5f6a9c2e1d74",
+    "title": "App de recetas",
+    "description": "Aplicación móvil para compartir y buscar recetas de cocina.",
+    "user_id": "",
+    "category_id": "0a8d4f3c-5e72-4b9e-b5f2-f9e2c7d6a1b3",
+    "demo_url": "https://recetasapp.example.com"
+  },
+  {
+    "project_id": "f9e2b7a1-c4d5-4e6f-b8a9-3c7e2f9d5b60",
+    "title": "E-commerce de ropa",
+    "description": "Tienda online con catálogo de productos, carrito y pago seguro.",
+    "user_id": "",
+    "category_id": "9b5f7e2a-3c10-4a6f-9f44-d7bfb9e2a4e1",
+    "demo_url": "https://shopclothes.example.com"
+  },
+  {
+    "project_id": "a6f7e9c2-d8b1-4a3e-b9f0-2c4d7e5f8b12",
+    "title": "Dashboard financiero",
+    "description": "Panel para monitorear inversiones y gastos personales.",
+    "user_id": "",
+    "category_id": "8f2b3a9e-7d14-4c98-b5f0-9e7c2a3d1b65",
+    "demo_url": "https://financedash.example.com"
+  },
+  {
+    "project_id": "c2e9b8d1-f5a3-4c7e-8d9f-1b0a6c7e3d42",
+    "title": "Blog de tecnología",
+    "description": "Plataforma para publicar artículos y noticias tecnológicas.",
+    "user_id": "",
+    "category_id": "3c5e1f7b-6a43-4d89-8e6f-7e9d4a2c5b6f",
+    "demo_url": "https://techblog.example.com"
+  },
+  {
+    "project_id": "d1a7f9c4-b8e2-4f6d-a7c3-5e9b0d2f4a31",
+    "title": "App de educación",
+    "description": "Aplicación para cursos online y seguimiento de estudiantes.",
+    "user_id": "",
+    "category_id": "5a9e7d2c-4b83-476f-92a0-1c3e5d7b9f24",
+    "demo_url": "https://educapp.example.com"
+  },
+  {
+    "project_id": "e7b9c2d3-a5f8-4d6b-9e3f-0c7d4a1f2e59",
+    "title": "Sistema de salud",
+    "description": "Software para gestión de pacientes y citas médicas.",
+    "user_id": "",
+    "category_id": "4b1d6c7a-9f53-40a2-8d1e-3a7f8e2c5b69",
+    "demo_url": "https://healthsystem.example.com"
+  },
+  {
+    "project_id": "b4d8f7a9-c3e1-4a5f-8d7b-2f9c0a3e1b46",
+    "title": "App de finanzas personales",
+    "description": "Herramienta para administrar presupuestos y gastos.",
+    "user_id": "",
+    "category_id": "8f2b3a9e-7d14-4c98-b5f0-9e7c2a3d1b65",
+    "demo_url": "https://personalfinance.example.com"
+  },
+  {
+    "project_id": "c9e1f2d4-b7a3-4d8c-9e0f-6b4a7d3f1e52",
+    "title": "Plataforma de entretenimiento",
+    "description": "Sitio para streaming y contenido multimedia.",
+    "user_id": "",
+    "category_id": "6c3e8d1f-b59a-4e07-a2f9-8b0d5c7e4a31",
+    "demo_url": "https://streaminghub.example.com"
+  },
+  {
+    "project_id": "d7f3e8a1-c2b5-4f9d-8e6a-0c3d7b9f4a62",
+    "title": "Campañas de marketing",
+    "description": "Gestión y análisis de campañas publicitarias digitales.",
+    "user_id": "",
+    "category_id": "3c5e1f7b-6a43-4d89-8e6f-7e9d4a2c5b6f",
+    "demo_url": "https://marketingpro.example.com"
+  }
+]
+
+
+
+[
+  {"save_project_id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d", "user_id": "", "project_id": ""},
+  {"save_project_id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e", "user_id": "", "project_id": ""},
+  {"save_project_id": "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f", "user_id": "", "project_id": ""},
+  {"save_project_id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a", "user_id": "", "project_id": ""},
+  {"save_project_id": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b", "user_id": "", "project_id": ""},
+  {"save_project_id": "f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c", "user_id": "", "project_id": ""},
+  {"save_project_id": "a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d", "user_id": "", "project_id": ""},
+  {"save_project_id": "b8c9d0e1-f23a-4b5c-6d7e-8f9a0b1c2d3e", "user_id": "", "project_id": ""},
+  {"save_project_id": "c9d0e1f2-34b5-c6d7-e8f9-a0b1c2d3e4f5", "user_id": "", "project_id": ""},
+  {"save_project_id": "d0e1f234-b5c6-d7e8-f9a0-b1c2d3e4f567", "user_id": "", "project_id": ""}
+]
+
+
+
+
+
+-- Categories (10)
+INSERT INTO public."Categories" (category_id, name) VALUES
+('9b5f7e2a-3c10-4a6f-9f44-d7bfb9e2a4e1', 'Desarrollo'),
+('0a8d4f3c-5e72-4b9e-b5f2-f9e2c7d6a1b3', 'Diseño'),
+('3c5e1f7b-6a43-4d89-8e6f-7e9d4a2c5b6f', 'Marketing'),
+('1e4f9b6d-8a21-4c5f-b7d8-1a9f2c3e4b5d', 'DevOps'),
+('7f2c8e1a-9d43-4b75-a8d7-2f4e6b9c3d1f', 'Data Science'),
+('2d7a1f4e-bc63-45a9-9d82-4f6e7a8c9b01', 'Seguridad'),
+('5a9e7d2c-4b83-476f-92a0-1c3e5d7b9f24', 'Educación'),
+('4b1d6c7a-9f53-40a2-8d1e-3a7f8e2c5b69', 'Salud'),
+('8f2b3a9e-7d14-4c98-b5f0-9e7c2a3d1b65', 'Finanzas'),
+('6c3e8d1f-b59a-4e07-a2f9-8b0d5c7e4a31', 'Entretenimiento');
+
+-- Projects (10) - foreign keys as empty strings ''
+INSERT INTO public."Projects" (project_id, title, description, user_id, category_id, demo_url) VALUES
+('e3d6a89b-7f24-4c9e-b1d5-4a7f8c2e9d50', 'Plataforma para freelancers', 'Una red social para conectar freelancers con clientes. Tiene chat en tiempo real, sistema de reseñas y dashboard personalizado.', '', '9b5f7e2a-3c10-4a6f-9f44-d7bfb9e2a4e1', 'https://freelancehub.vercel.app'),
+('b7c5d8e2-9a41-4d6f-b3e7-5f6a9c2e1d74', 'App de recetas', 'Aplicación móvil para compartir y buscar recetas de cocina.', '', '0a8d4f3c-5e72-4b9e-b5f2-f9e2c7d6a1b3', 'https://recetasapp.example.com'),
+('f9e2b7a1-c4d5-4e6f-b8a9-3c7e2f9d5b60', 'E-commerce de ropa', 'Tienda online con catálogo de productos, carrito y pago seguro.', '', '9b5f7e2a-3c10-4a6f-9f44-d7bfb9e2a4e1', 'https://shopclothes.example.com'),
+('a6f7e9c2-d8b1-4a3e-b9f0-2c4d7e5f8b12', 'Dashboard financiero', 'Panel para monitorear inversiones y gastos personales.', '', '8f2b3a9e-7d14-4c98-b5f0-9e7c2a3d1b65', 'https://financedash.example.com'),
+('c2e9b8d1-f5a3-4c7e-8d9f-1b0a6c7e3d42', 'Blog de tecnología', 'Plataforma para publicar artículos y noticias tecnológicas.', '', '3c5e1f7b-6a43-4d89-8e6f-7e9d4a2c5b6f', 'https://techblog.example.com'),
+('d1a7f9c4-b8e2-4f6d-a7c3-5e9b0d2f4a31', 'App de educación', 'Aplicación para cursos online y seguimiento de estudiantes.', '', '5a9e7d2c-4b83-476f-92a0-1c3e5d7b9f24', 'https://educapp.example.com'),
+('e7b9c2d3-a5f8-4d6b-9e3f-0c7d4a1f2e59', 'Sistema de salud', 'Software para gestión de pacientes y citas médicas.', '', '4b1d6c7a-9f53-40a2-8d1e-3a7f8e2c5b69', 'https://healthsystem.example.com'),
+('b4d8f7a9-c3e1-4a5f-8d7b-2f9c0a3e1b46', 'App de finanzas personales', 'Herramienta para administrar presupuestos y gastos.', '', '8f2b3a9e-7d14-4c98-b5f0-9e7c2a3d1b65', 'https://personalfinance.example.com'),
+('c9e1f2d4-b7a3-4d8c-9e0f-6b4a7d3f1e52', 'Plataforma de entretenimiento', 'Sitio para streaming y contenido multimedia.', '', '6c3e8d1f-b59a-4e07-a2f9-8b0d5c7e4a31', 'https://streaminghub.example.com'),
+('d7f3e8a1-c2b5-4f9d-8e6a-0c3d7b9f4a62', 'Campañas de marketing', 'Gestión y análisis de campañas publicitarias digitales.', '', '3c5e1f7b-6a43-4d89-8e6f-7e9d4a2c5b6f', 'https://marketingpro.example.com');
+
+-- SaveProjects (10) - foreign keys as empty strings ''
+INSERT INTO public."SaveProjects" (save_project_id, user_id, project_id) VALUES
+('a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d', '', ''),
+('b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e', '', ''),
+('c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f', '', ''),
+('d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a', '', ''),
+('e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b', '', ''),
+('f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c', '', ''),
+('a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d', '', ''),
+('b8c9d0e1-f23a-4b5c-6d7e-8f9a0b1c2d3e', '', ''),
+('c9d0e1f2-34b5-c6d7-e8f9-a0b1c2d3e4f5', '', ''),
+('d0e1f234-b5c6-d7e8-f9a0-b1c2d3e4f567', '', '');
