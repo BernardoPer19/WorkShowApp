@@ -1,72 +1,39 @@
 // AuthRequest.ts
-import {type LoginType, type RegisterType } from "../schema/AuthSchema";
-import axios from "../../../utils/axios";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
+import { apiRequest } from "../../../utils/api";
+import { type LoginType, type RegisterType } from "../schema/AuthSchema";
 
+// Registro
 export const RegisterAuth = async (data: RegisterType) => {
-  try {
-    const response = await axios.post("/auth/register", data);
-    toast.success("Usuario registrado exitosamente!"); // ✅ Mensaje fijo
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    if (error instanceof AxiosError && error.response) {
-
-      const backendMessage =
-        error.response.data?.errors || error.response.data?.message;
-      toast.error(backendMessage);
-      throw new Error(backendMessage);
-    }
-    throw new Error("Error desconocido al registrar el usuario.");
-  }
+  return apiRequest({
+    method: "post",
+    url: "/auth/register",
+    data,
+    successMessage: "Usuario registrado exitosamente!",
+  });
 };
 
+// Login
 export const LoginAuthRequest = async (data: LoginType) => {
-  try {
-    const response = await axios.post("/auth/login", data);
-    toast.success("¡Inicio de sesión exitoso!"); // ✅ Mensaje fijo
-    return response.data;
-  } catch (error) {
-    console.log(error);
-
-    if (error instanceof AxiosError && error.response) {
-      const backendMessage =
-        error.response.data?.errors || error.response.data?.message;
-      toast.error(backendMessage);
-      throw new Error(backendMessage);
-    }
-    throw new Error("Error desconocido al iniciar sesión.");
-  }
+  return apiRequest({
+    method: "post",
+    url: "/auth/login",
+    data,
+    successMessage: "¡Inicio de sesión exitoso!",
+  });
 };
 
+// Logout
 export const logOutRequest = async () => {
-  try {
-    const response = await axios.get("/auth/logout");
-    return response.data;
-  } catch (error) {
-    console.error("Error en logout:", error);
-    throw error;
-  }
+  return apiRequest({
+    method: "get",
+    url: "/auth/logout",
+  });
 };
 
-
+// Obtener usuario actual
 export const getCurrentUser = async () => {
-  try {
-    const response = await axios.get("/auth/currentUser");
-    
-    return response.data;
-  } catch (error) {
-    if (error instanceof AxiosError && error.response) {
-      const backendMessage =
-        error.response.data?.errors || error.response.data?.message;
-
-      if (error.response.status !== 401) {
-        toast.error(backendMessage);
-      }
-
-      throw new Error(backendMessage);
-    }
-    throw new Error("Error desconocido al obtener el usuario.");
-  }
+  return apiRequest({
+    method: "get",
+    url: "/auth/currentUser",
+  });
 };
