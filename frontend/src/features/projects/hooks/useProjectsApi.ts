@@ -3,7 +3,7 @@ import {
     createProject,
     deleteProject,
     getAllProject,
-    getProjectById,
+    getProjectByUser,
     updateProject,
 } from "../api/projectRequest";
 import { useAuthContext } from "../../auth/context/AuthContext";
@@ -23,22 +23,30 @@ export const useProject = () => {
         queryFn: getAllProject,
     });
 
-    // 🔎 Obtener proyecto del usuario actual (si corresponde)
+    // 🔎 Obtener proyectos del usuario actual (si corresponde)
     const {
         data: userProject,
         error: userProjectError,
         isLoading: isLoadingUserProject,
-    } = useQuery<ProjectType, Error>({
+    } = useQuery<ProjectType[], Error>({
         queryKey: ["userProject", currentUser?.user_id],
-        queryFn: () => getProjectById(currentUser!.user_id!),
+        queryFn: () => getProjectByUser(currentUser!.user_id!),
         enabled: !!currentUser?.user_id, // Solo si hay user_id
     });
+
+    // Función para invalidar ambas queries
+    const invalidateProjectsQueries = () => {
+        queryClient.invalidateQueries({ queryKey: ["projects"] });
+        if (currentUser?.user_id) {
+            queryClient.invalidateQueries({ queryKey: ["userProject", currentUser.user_id] });
+        }
+    };
 
     // ✅ Crear proyecto
     const createProjectMutation = useMutation<ProjectType, Error, projectSchemaType>({
         mutationFn: createProject,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["projects"] });
+            invalidateProjectsQueries();
         },
     });
 
@@ -46,7 +54,7 @@ export const useProject = () => {
     const deleteProjectMutation = useMutation<void, Error, string>({
         mutationFn: deleteProject,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["projects"] });
+            invalidateProjectsQueries();
         },
     });
 
@@ -56,12 +64,13 @@ export const useProject = () => {
         Error,
         { id: string; data: projectSchemaType }
     >({
-        mutationFn: async ({ id, data }) => { await updateProject(id, data); },
+        mutationFn: async ({ id, data }) => {
+            await updateProject(id, data);
+        },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["projects"] });
+            invalidateProjectsQueries();
         },
     });
-
 
     return {
         allProjects: {

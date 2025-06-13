@@ -19,6 +19,8 @@ export const apiRequest = async <T>(
 
         return res.data;
     } catch (error) {
+        console.log(error);
+        
         if (error instanceof AxiosError && error.response) {
             const backendMessage =
                 error.response.data?.errors || error.response.data?.message;
