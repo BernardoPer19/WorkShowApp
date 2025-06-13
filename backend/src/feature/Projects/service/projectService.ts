@@ -69,7 +69,7 @@ export class projectService {
     }));
   };
 
-  static getProjectThatUser = async (id: string) => {
+  static getProjectByUser = async (id: string) => {
     const projects = await prisma.projects.findMany({
       where: { user_id: id },
       include: {
@@ -86,6 +86,64 @@ export class projectService {
       tecnologies: p.tecnologies.map((t) => t.tecnology.name),
     }));
   };
+
+  static getProjectById = async (project_id: string) => {
+    const project = await prisma.projects.findFirst({
+      where: { project_id },
+      include: {
+        tecnologies: {
+          select: {
+            tecnology: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        users: {
+          select: {
+            username: true,
+            email: true,
+            bio: true,
+            avatar_url: true,
+            userTecnologies: {
+              select: {
+                tecnology: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+
+        categories: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!project) return null;
+
+    // Formatear los datos
+    const formattedProject = {
+      ...project,
+      tecnologies: project.tecnologies.map((t) => t.tecnology.name),
+      users: {
+        username: project.users.username,
+        avatar_url: project.users.avatar_url,
+        userTecnologies: project.users.userTecnologies.map((ut) => ut.tecnology.name),
+      },
+    };
+
+    return formattedProject;
+  };
+
+
+
 
   static createProject = async (
     input: CreateProjectType

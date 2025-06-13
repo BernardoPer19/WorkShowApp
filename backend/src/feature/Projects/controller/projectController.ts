@@ -15,7 +15,17 @@ export class ProjectController {
   static getProjectsByUsers = catchAsync(
     async (req: Request, res: Response, _next: NextFunction) => {
       const user_id = req.user?.user_id
-      const result = await projectService.getProjectThatUser(user_id!);
+      const result = await projectService.getProjectByUser(user_id!);
+      res.status(200).json(result);
+    }
+  );
+
+
+  static getProjectsByID = catchAsync(
+    async (req: Request, res: Response, _next: NextFunction) => {
+      const project_id = req.params.project_id
+      console.log("Recibido:", project_id);
+      const result = await projectService.getProjectById(project_id!);
       res.status(200).json(result);
     }
   );
