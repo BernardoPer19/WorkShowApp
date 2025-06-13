@@ -11,6 +11,14 @@ model Categories {
   category_id String     @id @default(uuid()) @db.Uuid
   name        String     @db.VarChar
   projects    Projects[]
+  subcategories Subcategory[]
+}
+
+model Subcategory {
+  subcategory_id String   @id @default(uuid()) @db.Uuid
+  name           String
+  category_id    String   @db.Uuid
+  categories     Categories @relation(fields: [category_id], references: [category_id])
 }
 
 model Collection_projects {
@@ -132,6 +140,7 @@ model SavedProject {
 
   @@unique([userId, projectId])
 }
+
 
 model Users {
   user_id        String   @id @default(uuid()) @db.Uuid
