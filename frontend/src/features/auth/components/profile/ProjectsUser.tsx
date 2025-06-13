@@ -6,6 +6,7 @@ import { TabsContent } from "../../../../components/ui/tabs";
 
 import { Eye, ExternalLink } from "lucide-react";
 import { useProject } from "../../../../../src/features/projects/hooks/useProjectsApi";
+import { Link } from "react-router-dom";
 
 interface Props {
   viewMode: string;
@@ -104,9 +105,11 @@ function ProjectsUser({ viewMode }: Props) {
                   </div>
                 </CardContent>
                 <div className="flex justify-center items-center gap-5">
-                  <button className="bg-blue-500 px-3.5 py-1 rounded text-white">
-                    Ver Proyecto
-                  </button>
+                  <Link to={`/project/${project.project_id}`}>
+                    <button className="bg-blue-500 px-3.5 py-1 rounded text-white hover:bg-blue-600 transition">
+                      Ver Proyecto
+                    </button>
+                  </Link>
                   <button
                     onClick={() => deleteProject.mutate(project!.project_id)}
                     className="bg-red-500 px-3.5 py-1 rounded text-white"

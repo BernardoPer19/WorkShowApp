@@ -34,6 +34,7 @@ export const useProject = () => {
         enabled: !!currentUser?.user_id, // Solo si hay user_id
     });
 
+
     // Función para invalidar ambas queries
     const invalidateProjectsQueries = () => {
         queryClient.invalidateQueries({ queryKey: ["projects"] });
@@ -83,6 +84,8 @@ export const useProject = () => {
             isLoading: isLoadingUserProject,
             error: userProjectError,
         },
+
+
         createProject: createProjectMutation,
         deleteProject: deleteProjectMutation,
         updateProject: updateProjectMutation,

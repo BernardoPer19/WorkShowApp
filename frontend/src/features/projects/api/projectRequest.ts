@@ -22,10 +22,10 @@ export const getProjectByUser = async (userID: string): Promise<ProjectType[]> =
 };
 
 // Obtener proyecto por ID
-export const getProjectById = async (id: string): Promise<ProjectType[]> => {
+export const getProjectById = async (id: string): Promise<ProjectType> => {
     return apiRequest({
         method: "get",
-        url: `/project/${id}`,
+        url: `/projects/project_user/${id}`,
     });
 };
 
