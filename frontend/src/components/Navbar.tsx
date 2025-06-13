@@ -9,10 +9,10 @@ import {
 import { Search, Palette } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../features/auth/context/AuthContext";
-import CreateButton from "./NavComponets/CreateButtibn";
 import UserMenu from "./NavComponets/UserMenu";
 import CategoriesNav from "./NavComponets/CategoriesNav";
 import NavigationLinks from "./NavComponets/NavigationLinks";
+import CreateButton from "../features/projects/components/CreateButtibn";
 
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");

@@ -49,7 +49,7 @@ export class ProjectController {
         project,
         user?.user_id!
       );
-      res
+      res    
         .status(201)
         .json({ message: "se elimino el proyecto con exito", result });
     }

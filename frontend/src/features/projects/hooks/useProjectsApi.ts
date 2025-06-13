@@ -14,7 +14,6 @@ export const useProject = () => {
     const queryClient = useQueryClient();
     const { currentUser } = useAuthContext();
 
-    // 🔎 Obtener todos los proyectos
     const {
         data: allProjects,
         error: allProjectsError,

@@ -12,7 +12,6 @@ export const apiRequest = async <T>(
 ): Promise<T> => {
     try {
         const res = await axios(config);
-        console.log(res);
 
         if (config.successMessage) {
             toast.success(config.successMessage);
