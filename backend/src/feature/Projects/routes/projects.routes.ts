@@ -5,10 +5,12 @@ import { verifyUser } from "@/feature/Auth/middlewares/VerifyUser";
 export const projectRoute = Router();
 
 projectRoute.get("/project/categori", ProjectController.getAllCategories);
+
 projectRoute.get("/project", verifyUser, ProjectController.getAlProjectsThatCategory);
 
 
 projectRoute.get("/project", verifyUser, ProjectController.getProjects);
+
 projectRoute.get("/project/:id", verifyUser, ProjectController.getProjectsByUsers);
 
 projectRoute.post("/project", verifyUser, ProjectController.createProjects);
@@ -19,4 +21,3 @@ projectRoute.put("/project/:id", verifyUser, ProjectController.updateProject);
 
 
 
-    

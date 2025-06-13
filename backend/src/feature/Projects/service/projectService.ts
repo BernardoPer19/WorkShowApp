@@ -69,9 +69,9 @@ export class projectService {
     }));
   };
 
-  static getProjectThatUser = async (project: string) => {
+  static getProjectThatUser = async (id: string) => {
     const projects = await prisma.projects.findMany({
-      where: { project_id: project },
+      where: { user_id: id },
       include: {
         tecnologies: {
           select: {
@@ -156,7 +156,7 @@ export class projectService {
       }),
 
       prisma.projects.delete({
-        where: { project_id: project }, 
+        where: { project_id: project },
       }),
     ]);
 
