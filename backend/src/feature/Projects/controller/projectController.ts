@@ -49,7 +49,7 @@ export class ProjectController {
         project,
         user?.user_id!
       );
-      res
+      res    
         .status(201)
         .json({ message: "se elimino el proyecto con exito", result });
     }
@@ -69,4 +69,21 @@ export class ProjectController {
       res.status(201).json({ message: "se actualizo con exito", result });
     }
   );
+
+  static getAllCategories = catchAsync(
+     async (_req: Request, res: Response, _next: NextFunction) =>{
+      const categori = await projectService.getByCategories();
+      console.log("lelga aca");
+      
+      res.status(200).json(categori);
+     }
+  )
+
+  static getAlProjectsThatCategory = catchAsync(
+    async (req: Request, res: Response, _next: NextFunction) =>{
+      const categori = req.query.categoria as string;
+      const result = await projectService.getCategoriesToFilter(categori);
+      res.status(200).json(result)
+    }
+  )
 }
