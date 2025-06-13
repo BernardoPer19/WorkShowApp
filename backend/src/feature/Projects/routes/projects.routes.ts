@@ -4,6 +4,10 @@ import { verifyUser } from "@/feature/Auth/middlewares/VerifyUser";
 
 export const projectRoute = Router();
 
+projectRoute.get("/project/categori", ProjectController.getAllCategories);
+projectRoute.get("/project", verifyUser, ProjectController.getAlProjectsThatCategory);
+
+
 projectRoute.get("/project", verifyUser, ProjectController.getProjects);
 projectRoute.get("/project/:id", verifyUser, ProjectController.getProjectsByUsers);
 
@@ -13,8 +17,6 @@ projectRoute.delete("/project/:id", verifyUser, ProjectController.deleteProject)
 projectRoute.put("/project/:id", verifyUser, ProjectController.updateProject);
 
 
-projectRoute.get("/project/categori", verifyUser, ProjectController.getAllCategories);
-projectRoute.get("/project/categori", verifyUser, ProjectController.getAlProjectsThatCategory);
 
 
-
+    

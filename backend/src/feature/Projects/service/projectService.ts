@@ -57,7 +57,7 @@ export class projectService {
       include: {
         tecnologies: {
           select: {
-            tecnology: true, 
+            tecnology: true,
           },
         },
       },
@@ -69,13 +69,13 @@ export class projectService {
     }));
   };
 
-  static getProjectThatUser = async (userId: string) => {
+  static getProjectThatUser = async (project: string) => {
     const projects = await prisma.projects.findMany({
-      where: { user_id: userId },
+      where: { project_id: project },
       include: {
         tecnologies: {
           select: {
-            tecnology: true, 
+            tecnology: true,
           },
         },
       },
@@ -83,10 +83,9 @@ export class projectService {
 
     return projects.map((p) => ({
       ...p,
-      tecnologies: p.tecnologies.map((t) => t.tecnology.name),  
+      tecnologies: p.tecnologies.map((t) => t.tecnology.name),
     }));
   };
-
 
   static createProject = async (
     input: CreateProjectType
@@ -147,18 +146,21 @@ export class projectService {
     };
   };
 
-
   static deleteProjects = async (project: string, user: string) => {
     await this.userExist(user);
     await this.searchProject(project);
-    const projects = await prisma.projects.delete({
-      where: {
-        user_id: user,
-        project_id: project,
-      },
-    });
 
-    return projects;
+    const result = await prisma.$transaction([
+      prisma.projectTecnology.deleteMany({
+        where: { project_id: project },
+      }),
+
+      prisma.projects.delete({
+        where: { project_id: project }, 
+      }),
+    ]);
+
+    return result[1];
   };
 
   static updateProjects = async (
@@ -178,12 +180,17 @@ export class projectService {
     return projects;
   };
 
-  static getByCategories = async  ()=>{
-    const categorie = await prisma.categories.findMany();
-    return categorie;
-  }
+  static getByCategories = async () => {
+    try {
+      const categorie = await prisma.categories.findMany();
+      return categorie;
+    } catch (error) {
+      console.error("Error al obtener categorías:", error);
+      throw error;
+    }
+  };
 
- static async getCategoriesToFilter(categoria: string) {
+  static async getCategoriesToFilter(categoria: string) {
     const result = await prisma.$queryRaw`
       SELECT 
         p.title, 
