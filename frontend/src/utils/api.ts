@@ -12,13 +12,16 @@ export const apiRequest = async <T>(
 ): Promise<T> => {
     try {
         const res = await axios(config);
-
+        console.log(res.data);
+        
         if (config.successMessage) {
             toast.success(config.successMessage);
         }
 
         return res.data;
     } catch (error) {
+        console.log(error);
+        
         if (error instanceof AxiosError && error.response) {
             const backendMessage =
                 error.response.data?.errors || error.response.data?.message;
