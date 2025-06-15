@@ -14,7 +14,18 @@ export class ProjectController {
 
   static getProjectsByUsers = catchAsync(
     async (req: Request, res: Response, _next: NextFunction) => {
-      const result = await projectService.getProjectThatUser(req.params.id);
+      const user_id = req.user?.user_id
+      const result = await projectService.getProjectByUser(user_id!);
+      res.status(200).json(result);
+    }
+  );
+
+
+  static getProjectsByID = catchAsync(
+    async (req: Request, res: Response, _next: NextFunction) => {
+      const project_id = req.params.project_id
+      console.log("Recibido:", project_id);
+      const result = await projectService.getProjectById(project_id!);
       res.status(200).json(result);
     }
   );
@@ -49,7 +60,7 @@ export class ProjectController {
         project,
         user?.user_id!
       );
-      res    
+      res
         .status(201)
         .json({ message: "se elimino el proyecto con exito", result });
     }
@@ -71,16 +82,16 @@ export class ProjectController {
   );
 
   static getAllCategories = catchAsync(
-     async (_req: Request, res: Response, _next: NextFunction) =>{
+    async (_req: Request, res: Response, _next: NextFunction) => {
       const categori = await projectService.getByCategories();
       console.log("lelga aca");
-      
+
       res.status(200).json(categori);
-     }
+    }
   )
 
   static getAlProjectsThatCategory = catchAsync(
-    async (req: Request, res: Response, _next: NextFunction) =>{
+    async (req: Request, res: Response, _next: NextFunction) => {
       const categori = req.query.categoria as string;
       const result = await projectService.getCategoriesToFilter(categori);
       res.status(200).json(result)

@@ -8,7 +8,10 @@ export const UserSchema = z.object({
   tecnologies: z.array(z.string().min(1, "Cada habilidad debe ser un string no vacío")),
   profession: z.string().min(2, "La profesión debe tener al menos 2 caracteres"),
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
-  portafolio_url: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional(),
+  portafolio_url: z.string()
+    .url("La URL del portafolio no es válida")
+    .optional()
+    .or(z.literal("").optional()),
   avatar_url: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional(),
   bio: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres").optional(),
   created_at: z.string().datetime({ message: "Fecha de creación inválida" }).optional()

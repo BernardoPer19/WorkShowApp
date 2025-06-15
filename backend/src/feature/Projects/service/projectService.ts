@@ -69,9 +69,9 @@ export class projectService {
     }));
   };
 
-  static getProjectThatUser = async (project: string) => {
+  static getProjectByUser = async (id: string) => {
     const projects = await prisma.projects.findMany({
-      where: { project_id: project },
+      where: { user_id: id },
       include: {
         tecnologies: {
           select: {
@@ -86,6 +86,74 @@ export class projectService {
       tecnologies: p.tecnologies.map((t) => t.tecnology.name),
     }));
   };
+
+  static getProjectById = async (project_id: string) => {
+    const project = await prisma.projects.findFirst({
+      where: { project_id },
+      include: {
+        tecnologies: {
+          select: {
+            tecnology: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        users: {
+          select: {
+            username: true,
+            email: true,
+            lastname: true,
+            bio: true,
+            name: true,
+            profession: true,
+            avatar_url: true,
+            userTecnologies: {
+              select: {
+                tecnology: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        categories: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!project) return null;
+
+    const formattedProject = {
+      ...project,
+      tecnologies: project.tecnologies.map((t) => t.tecnology.name),
+      users: {
+        username: project.users.username,
+        lastname: project.users.lastname,
+        email: project.users.email,
+        bio: project.users.bio,
+        name: project.users.name,
+        profession: project.users.profession,
+        avatar_url: project.users.avatar_url,
+        userTecnologies: project.users.userTecnologies.map(
+          (ut) => ut.tecnology.name
+        ),
+      },
+      categories: {
+        name: project.categories.name,
+      },
+    };
+
+    return formattedProject;
+  };
+
+
 
   static createProject = async (
     input: CreateProjectType
@@ -156,7 +224,7 @@ export class projectService {
       }),
 
       prisma.projects.delete({
-        where: { project_id: project }, 
+        where: { project_id: project },
       }),
     ]);
 

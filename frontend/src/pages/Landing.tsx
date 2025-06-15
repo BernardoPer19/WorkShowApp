@@ -1,19 +1,17 @@
-import { Button } from "../../components/ui/button";
-import { Card, CardContent } from "../../components/ui/card";
-import { Badge } from "../../components/ui/badge";
+import { Button } from "../components/ui/button";
+import { Card, CardContent } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../components/ui/avatar";
+} from "../components/ui/avatar";
 import {
   Code,
   Palette,
   Camera,
   Music,
   Pen,
-  Star,
-  Users,
   ArrowRight,
   Heart,
   MessageCircle,
@@ -133,35 +131,6 @@ const categories = [
   { name: "Music", icon: Music, count: 321 },
 ];
 
-const topFreelancers = [
-  {
-    name: "María García",
-    username: "maria_design",
-    avatar: "/placeholder.svg?height=60&width=60",
-    specialty: "UI/UX Designer",
-    followers: 12500,
-    projects: 89,
-    rating: 4.9,
-  },
-  {
-    name: "Carlos Rodríguez",
-    username: "carlos_dev",
-    avatar: "/placeholder.svg?height=60&width=60",
-    specialty: "Full Stack Developer",
-    followers: 8900,
-    projects: 67,
-    rating: 4.8,
-  },
-  {
-    name: "Ana López",
-    username: "ana_brand",
-    avatar: "/placeholder.svg?height=60&width=60",
-    specialty: "Brand Designer",
-    followers: 15200,
-    projects: 134,
-    rating: 5.0,
-  },
-];
 
 export default function HomePage() {
   return (
@@ -405,83 +374,6 @@ export default function HomePage() {
             </div>
           </section>
 
-          {/* Top Freelancers */}
-          <section className="py-16 bg-white w-full">
-            <div className="container m-auto px-4">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold mb-4">
-                  Freelancers Destacados
-                </h2>
-                <p className="text-muted-foreground max-w-2xl mx-auto">
-                  Conecta con los profesionales más talentosos de nuestra
-                  comunidad
-                </p>
-              </div>
-
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                {topFreelancers.map((freelancer) => (
-                  <Card
-                    key={freelancer.username}
-                    className="text-center hover:shadow-lg transition-shadow"
-                  >
-                    <CardContent className="p-6">
-                      <Avatar className="w-16 h-16 mx-auto mb-4">
-                        <AvatarImage
-                          src={freelancer.avatar || "/placeholder.svg"}
-                        />
-                        <AvatarFallback>{freelancer.name[0]}</AvatarFallback>
-                      </Avatar>
-
-                      <h3 className="font-semibold text-lg mb-1">
-                        {freelancer.name}
-                      </h3>
-                      <p className="text-muted-foreground text-sm mb-2">
-                        @{freelancer.username}
-                      </p>
-                      <p className="text-primary font-medium mb-4">
-                        {freelancer.specialty}
-                      </p>
-
-                      <div className="grid grid-cols-3 gap-4 mb-4 text-center">
-                        <div>
-                          <div className="font-semibold">
-                            {freelancer.followers.toLocaleString()}
-                          </div>
-                          <div className="text-xs text-muted-foreground">
-                            Seguidores
-                          </div>
-                        </div>
-                        <div>
-                          <div className="font-semibold">
-                            {freelancer.projects}
-                          </div>
-                          <div className="text-xs text-muted-foreground">
-                            Proyectos
-                          </div>
-                        </div>
-                        <div>
-                          <div className="font-semibold flex items-center justify-center gap-1">
-                            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                            {freelancer.rating}
-                          </div>
-                          <div className="text-xs text-muted-foreground">
-                            Rating
-                          </div>
-                        </div>
-                      </div>
-
-                      <Button className="w-full" asChild>
-                        <Link to={`/profile/${freelancer.username}`}>
-                          <Users className="h-4 w-4 mr-2" />
-                          Ver Perfil
-                        </Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </section>
 
           {/* CTA Section */}
           <section className="py-20 bg-primary text-primary-foreground w-full">
@@ -498,7 +390,6 @@ export default function HomePage() {
                   size="lg"
                   variant="secondary"
                   className="h-12 px-8"
-                  onClick={() => setIsLoggedIn(true)}
                 >
                   Crear Cuenta Gratis
                 </Button>
