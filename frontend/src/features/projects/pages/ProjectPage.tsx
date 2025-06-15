@@ -21,8 +21,6 @@ import {
   DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu";
 import {
-  Heart,
-  MessageCircle,
   Bookmark,
   Share,
   ExternalLink,
@@ -34,12 +32,13 @@ import {
 import { Link } from "react-router-dom";
 import CommetsSection from "../components/CommetsSection";
 import { useProjectById } from "../hooks/useProjectById";
+import { useSave } from "../hooks/useSave";
 
 export default function ProjectPage() {
   const { id: projectId } = useParams();
   const { data: project, error, isLoading } = useProjectById(projectId);
-  console.log("datos: ", project);
-  
+  const { saveProject } = useSave();
+
   if (isLoading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
@@ -52,9 +51,11 @@ export default function ProjectPage() {
               <div>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <h1 className="text-3xl font-bold mb-2">{project?.title}</h1>
+                    <h1 className="text-3xl font-bold mb-2">
+                      {project?.title}
+                    </h1>
                     <p className="text-muted-foreground mb-4">
-                      {project?.description}
+                      {project?.descCorta}
                     </p>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {project?.tecnologies?.map((tag) => (
@@ -85,19 +86,13 @@ export default function ProjectPage() {
                 </div>
 
                 <div className="flex items-center gap-4 mb-6">
-                  <Button variant="outline" className="flex items-center gap-2">
-                    <Heart className="h-4 w-4" />
-                    234
-                  </Button>
-
-                  <Button variant="outline" className="flex items-center gap-2">
+                  <Button
+                    onClick={() => saveProject.mutate(project!.project_id!)}
+                    variant="outline"
+                    className="flex items-center gap-2"
+                  >
+                    Guardar
                     <Bookmark className="h-4 w-4" />
-                    89
-                  </Button>
-
-                  <Button variant="outline" className="flex items-center gap-2">
-                    <MessageCircle className="h-4 w-4" />
-                    18
                   </Button>
                 </div>
               </div>
@@ -135,23 +130,34 @@ export default function ProjectPage() {
                   <div className="flex items-center gap-3 mb-4">
                     <Avatar className="h-12 w-12">
                       <AvatarImage src="/placeholder.svg" />
-                      <AvatarFallback>U</AvatarFallback>
+                      <AvatarFallback>
+                        {project?.users.avatar_url
+                          ? project?.users.avatar_url
+                          : project?.users.username.substring(0, 2)}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
-                      <h3 className="font-semibold">Usuario</h3>
-                      <p className="text-sm text-muted-foreground">@usuario</p>
+                      <h3 className="font-semibold">
+                        {project?.users.name} {project?.users.lastname} |{" "}
+                        {project?.users.profession}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        @{project?.users.username}
+                      </p>
                     </div>
                   </div>
 
                   <p className="text-sm text-muted-foreground mb-4">
-                    Descripción breve del usuario
+                    {project?.users.bio
+                      ? project?.users.bio
+                      : "No tiene bio el usuario"}
                   </p>
                   <div>
                     <h4 className="font-medium mb-2">
                       Tecnologías del Usuario
                     </h4>
                     <div className="flex flex-wrap gap-1">
-                      {project?.tecnologies?.map((tool) => (
+                      {project?.users?.userTecnologies?.map((tool) => (
                         <Badge key={tool} variant="outline" className="text-xs">
                           {tool}
                         </Badge>
@@ -170,7 +176,9 @@ export default function ProjectPage() {
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm">
                       {project?.createProject_at
-                        ? new Date(project.createProject_at).toLocaleDateString()
+                        ? new Date(
+                            project.createProject_at
+                          ).toLocaleDateString()
                         : "Fecha no disponible"}
                     </span>
                   </div>

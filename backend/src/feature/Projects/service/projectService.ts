@@ -104,7 +104,10 @@ export class projectService {
           select: {
             username: true,
             email: true,
+            lastname: true,
             bio: true,
+            name: true,
+            profession: true,
             avatar_url: true,
             userTecnologies: {
               select: {
@@ -117,7 +120,6 @@ export class projectService {
             },
           },
         },
-
         categories: {
           select: {
             name: true,
@@ -128,20 +130,28 @@ export class projectService {
 
     if (!project) return null;
 
-    // Formatear los datos
     const formattedProject = {
       ...project,
       tecnologies: project.tecnologies.map((t) => t.tecnology.name),
       users: {
         username: project.users.username,
+        lastname: project.users.lastname,
+        email: project.users.email,
+        bio: project.users.bio,
+        name: project.users.name,
+        profession: project.users.profession,
         avatar_url: project.users.avatar_url,
-        userTecnologies: project.users.userTecnologies.map((ut) => ut.tecnology.name),
+        userTecnologies: project.users.userTecnologies.map(
+          (ut) => ut.tecnology.name
+        ),
+      },
+      categories: {
+        name: project.categories.name,
       },
     };
 
     return formattedProject;
   };
-
 
 
 

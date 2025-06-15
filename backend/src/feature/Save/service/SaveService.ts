@@ -1,15 +1,14 @@
 import { prisma } from "@/config/prisma";
-import { SaveProjectInput } from "../schemas/SaveSchema";
 
 class SaveService {
     // Guardar un proyecto para un usuario
-    static async save(data: SaveProjectInput) {
+    static async save(userId: string, projectId: string) {
         try {
             // Verifica si el proyecto ya está guardado por el usuario
             const existing = await prisma.savedProject.findFirst({
                 where: {
-                    userId: data.userId,
-                    projectId: data.projectId,
+                    userId,
+                    projectId
                 },
             });
 
@@ -19,8 +18,8 @@ class SaveService {
 
             const saved = await prisma.savedProject.create({
                 data: {
-                    userId: data.userId,
-                    projectId: data.projectId,
+                    userId,
+                    projectId
                 },
             });
 

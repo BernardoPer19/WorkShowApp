@@ -3,6 +3,7 @@
 import { apiRequest } from "../../../../src/utils/api";
 import type { projectSchemaType } from "../schema/ProjectSchema";
 import type { ProjectType } from "../types/ProjectsTypes";
+import type { ProjectTypes } from "../types/ProjectType";
 
 // Obtener todos los proyectos
 export const getAllProject = async (): Promise<ProjectType[]> => {
@@ -22,7 +23,7 @@ export const getProjectByUser = async (userID: string): Promise<ProjectType[]> =
 };
 
 // Obtener proyecto por ID
-export const getProjectById = async (id: string): Promise<ProjectType> => {
+export const getProjectById = async (id: string): Promise<ProjectTypes> => {
     return apiRequest({
         method: "get",
         url: `/projects/project_user/${id}`,

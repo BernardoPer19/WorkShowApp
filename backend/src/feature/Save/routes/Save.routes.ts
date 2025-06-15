@@ -5,5 +5,5 @@ import { SaveController } from "../controller/SaveController";
 export const SaveRoutes = Router();
 
 SaveRoutes.get("/saved", verifyUser, SaveController.getSaved);
-SaveRoutes.post("/save", verifyUser, SaveController.saved);
+SaveRoutes.post("/save", verifyUser, SaveController.save);
 SaveRoutes.delete("/save/:id", verifyUser, SaveController.delete);
