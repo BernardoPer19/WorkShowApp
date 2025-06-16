@@ -34,10 +34,12 @@ export class SaveController {
     );
     static delete = catchAsync(
         async (req: Request, res: Response, _next: NextFunction) => {
-            const { userId, projectId } = req.body
-            const deleteProject = await SaveService.delete(userId, projectId)
+            const userId = req.user?.user_id;
+            const { id: projectId } = req.params;
+            const deleteProject = await SaveService.delete(userId!, projectId);
             res.status(200).json(deleteProject);
         }
-    )
+    );
+
 
 }
