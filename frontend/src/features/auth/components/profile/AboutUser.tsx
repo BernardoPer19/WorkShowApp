@@ -20,15 +20,17 @@ function AboutUser({ currentUser }: Props) {
   return (
     <div>
       <TabsContent value="about">
-        <div className="max-w-3xl">
+        <div className="max-w-3xl   min-w-96">
           <Card>
             <CardHeader>
-              <CardTitle>Acerca de {currentUser?.name}</CardTitle>
+              <CardTitle>Nombre: {currentUser?.username}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
                 <h3 className="font-semibold mb-2">Biografía</h3>
-                <p className="text-muted-foreground">{currentUser?.bio}</p>
+                <p className="text-muted-foreground">
+                  {currentUser?.bio ? currentUser?.bio : "No hay bio aun"}
+                </p>
               </div>
 
               <div>

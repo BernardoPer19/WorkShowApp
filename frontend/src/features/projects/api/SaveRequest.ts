@@ -18,9 +18,11 @@ export const getSaved = async (): Promise<SavedProjects[]> => {
     });
 };
 
-export const deleteSaved = async () => {
+export const deleteSaved = async (projectId: string): Promise<void> => {
     return apiRequest({
         method: "delete",
-        url: "/save/:id",
+        url: `/save/${projectId}`,
+        successMessage: "Proyecto eliminado correctamente",
     });
 };
+

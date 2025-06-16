@@ -214,23 +214,28 @@ export class projectService {
     };
   };
 
-  static deleteProjects = async (project: string, user: string) => {
-    await this.userExist(user);
-    await this.searchProject(project);
+  static deleteProjects = async (projectId: string, userId: string) => {
+    await this.userExist(userId);
+    await this.searchProject(projectId);
 
     const result = await prisma.$transaction([
-      prisma.projectTecnology.deleteMany({
-        where: { project_id: project },
-      }),
+      prisma.projectTecnology.deleteMany({ where: { project_id: projectId } }),
+      prisma.collection_projects.deleteMany({ where: { project_id: projectId } }),
+      prisma.commets.deleteMany({ where: { project_id: projectId } }),
+      prisma.likes.deleteMany({ where: { project_id: projectId } }),
+      prisma.project_media.deleteMany({ where: { project_id: projectId } }),
+      prisma.savedProject.deleteMany({ where: { projectId: projectId } }),
 
       prisma.projects.delete({
-        where: { project_id: project },
+        where: {
+          project_id: projectId,
+          user_id: userId,
+        },
       }),
     ]);
 
-    return result[1];
+    return result[result.length - 1];
   };
-
   static updateProjects = async (
     project: string,
     user: string,

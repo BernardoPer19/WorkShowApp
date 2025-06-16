@@ -35,12 +35,16 @@ export const useSave = () => {
     })
 
     const DeleteProject = useMutation({
-        mutationFn: deleteSaved,
-        onSuccess: () => {
+        mutationFn: (id: string) => deleteSaved(id),
+        onSuccess: (_data, id) => {
+            queryClient.setQueryData<SavedProjects[]>(["savedProjects"], (oldData) => {
+                if (!oldData) return [];
+                return oldData.filter((project) => project.projectId !== id);
+            });
+
             invalidateProjectsQueries();
         },
-    })
-
+    });
     return {
         savedProjects,
         isLoading,

@@ -23,7 +23,6 @@ interface ProjectFormProps {
 }
 
 const categories = [
-  { id: "94a3310c-3af3-401a-ab45-283879a620a3", name: "Programacion web" },
   { id: "94a3310c-3af3-401a-ab45-283879a620a3", name: "Arte" },
   { id: "c69765a1-6397-4db7-9231-2ec5670e5eab", name: "Fotografia" },
   { id: "efe56ecc-c7e5-4107-8056-83dec230a33a", name: "Moda" },

@@ -4,9 +4,9 @@ import { verifyUser } from "@/feature/Auth/middlewares/VerifyUser";
 
 export const projectRoute = Router();
 
-projectRoute.get("/project/categori", ProjectController.getAllCategories);
+projectRoute.get("/project/categories", ProjectController.getAllCategories);
 
-projectRoute.get("/project/category", verifyUser, ProjectController.getAlProjectsThatCategory);
+projectRoute.get("/project/categories", verifyUser, ProjectController.getAllProjectsByCategory);
 
 projectRoute.get("/project", verifyUser, ProjectController.getProjects);
 
