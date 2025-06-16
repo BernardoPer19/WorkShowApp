@@ -90,7 +90,7 @@ export class ProjectController {
     }
   )
 
-  static getAlProjectsThatCategory = catchAsync(
+  static getAllProjectsByCategory = catchAsync(
     async (req: Request, res: Response, _next: NextFunction) => {
       const categori = req.query.categoria as string;
       const result = await projectService.getCategoriesToFilter(categori);

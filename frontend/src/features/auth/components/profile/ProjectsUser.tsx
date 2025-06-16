@@ -34,7 +34,7 @@ function ProjectsUser({ viewMode }: Props) {
           ) : (
             userProject.data.map((project) => (
               <Card
-                className={`break-inside-avoid group cursor-pointer hover:shadow-xl transition-all duration-300 ${
+                className={`break-inside-avoid group min-w-96 cursor-pointer hover:shadow-xl transition-all duration-300 ${
                   viewMode === "list" ? "flex" : ""
                 }`}
               >
