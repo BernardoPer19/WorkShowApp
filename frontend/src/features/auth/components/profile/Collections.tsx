@@ -5,7 +5,7 @@ import { Card, CardContent } from "../../../../components/ui/card";
 import { TabsContent } from "../../../../components/ui/tabs";
 
 export default function Collections() {
-  const { savedProjects, isLoading, isError } = useSave();
+  const { savedProjects, isLoading, isError, deletSaves } = useSave();
 
   if (isLoading) return <p>Cargando proyectos guardados...</p>;
   if (isError) return <p>Ocurrió un error al cargar los proyectos.</p>;
@@ -16,7 +16,7 @@ export default function Collections() {
         {savedProjects.map((collection) => (
           <Card
             key={collection.id}
-            className="group cursor-pointer hover:shadow-lg transition-shadow"
+            className="group  min-w-96  cursor-pointer hover:shadow-lg transition-shadow"
           >
             <div className="relative overflow-hidden rounded-t-lg">
               <img
@@ -34,10 +34,22 @@ export default function Collections() {
               </p>
               <div className="flex items-center justify-between text-sm text-muted-foreground">
                 <span>{collection.project.duration}</span>
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="bg-blue-600 text-white rounded"
+                >
                   <Link to={`/project/${collection.projectId}`}>
                     Ver Proyecto
                   </Link>
+                </Button>
+                <Button
+                  onClick={() => deletSaves.mutate(collection.projectId)}
+                  variant="ghost"
+                  size="sm"
+                  className="bg-red-600 text-white rounded"
+                >
+                  Eliminar guardado
                 </Button>
               </div>
             </CardContent>

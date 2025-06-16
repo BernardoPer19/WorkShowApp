@@ -59,20 +59,7 @@ const comments = [
     isLiked: true,
     replies: [],
   },
-  {
-    id: 3,
-    author: {
-      name: "Diego Martín",
-      username: "diego_3d",
-      avatar: "/placeholder.svg?height=32&width=32",
-    },
-    content:
-      "Excelente caso de estudio. Me gustaría ver más del proceso de wireframing.",
-    createdAt: "hace 1 día",
-    likes: 15,
-    isLiked: false,
-    replies: [],
-  },
+
 ];
 
 function CommetsSection() {

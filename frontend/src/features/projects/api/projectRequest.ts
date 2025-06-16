@@ -39,7 +39,7 @@ export const getProjectByCategory = async () => {
 };
 
 // Crear proyecto
-export const createProject = async (data: projectSchemaType): Promise<ProjectType> => {
+export const  createProject = async (data: projectSchemaType): Promise<ProjectType> => {
     return apiRequest({
         method: "post",
         url: `/project`,
