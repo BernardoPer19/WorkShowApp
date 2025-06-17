@@ -69,14 +69,14 @@ const CategoriesNav = () => {
                   {subcategories.slice(0, 5).map((sub) => (
                     <Link
                       key={sub}
-                      to={`/category/${sub.toLowerCase().replace(/\s+/g, "-")}`}
+                      to={`/category/:${sub.toLowerCase().replace(/\s+/g, "-")}`}
                       className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                     >
                       {sub}
                     </Link>
                   ))}
                   <Link
-                    to={`/categories/${category.name.toLowerCase()}`}
+                    to={`/category/${category.name.toLowerCase()}`}
                     className="text-xs text-primary hover:underline"
                   >
                     Ver todas →

@@ -2,8 +2,7 @@ import {
     Palette,
     Code,
     Camera,
-    Pen,
-    Music,
+    Shirt,
 } from "lucide-react";
 import type { Category } from "../types/CategoriesMockesTypes";
 
@@ -14,7 +13,7 @@ import type { Category } from "../types/CategoriesMockesTypes";
 export const categories : Category[]= [
     {
         id: "design",
-        name: "Diseño",
+        name: "diseño",
         icon: Palette,
         color: "bg-purple-100 text-purple-600",
         description: "Interfaces, gráficos, branding y más",
@@ -91,7 +90,7 @@ export const categories : Category[]= [
     },
     {
         id: "photography",
-        name: "Fotografía",
+        name: "multimedia",
         icon: Camera,
         color: "bg-green-100 text-green-600",
         description: "Retratos, productos, eventos y más",
@@ -104,7 +103,7 @@ export const categories : Category[]= [
             { name: "Event Photography", count: 1890, growth: "+3%" },
             { name: "Nature Photography", count: 1820, growth: "+7%" },
         ],
-        featuredProjects: [
+        featuredProjects: [ 
             {
                 id: 6,
                 title: "Fashion Portraits",
@@ -117,8 +116,8 @@ export const categories : Category[]= [
     },
     {
         id: "writing",
-        name: "Escritura",
-        icon: Pen,
+        name: "arte",
+        icon: Palette,
         color: "bg-orange-100 text-orange-600",
         description: "Copywriting, contenido, blogs y más",
         projectCount: 6780,
@@ -142,9 +141,9 @@ export const categories : Category[]= [
         ],
     },
     {
-        id: "music",
-        name: "Audio",
-        icon: Music,
+        id: "moda",
+        name: "moda",
+        icon: Shirt,
         color: "bg-pink-100 text-pink-600",
         description: "Música, podcasts, efectos de sonido",
         projectCount: 4560,

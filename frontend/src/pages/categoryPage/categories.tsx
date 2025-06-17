@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { categories } from "./mocks/categories";
-import HeroSection from "./components/Category/HeroSection";
 import CategoriesGrid from "./components/Category/CategoriesGrid";
 import ProjectsByCategory from "./components/Category/ProjectsByCategory";
-  
+import HeroSection from "./components/Category/HeroSection";
+import CTAsection from "./components/Category/CTAsection";
 export default function CategoriesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("popular");
@@ -30,8 +30,9 @@ export default function CategoriesPage() {
 
         <CategoriesGrid filteredCategories={filteredCategories} />
 
-        {/* Featured Projects by Category */}
         <ProjectsByCategory />
+
+        <CTAsection />
       </main>
     </section>
   );

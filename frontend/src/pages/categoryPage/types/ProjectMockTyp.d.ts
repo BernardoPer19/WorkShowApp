@@ -1,4 +1,4 @@
-export type Project = {
+export interface Project {
   id: number;
   title: string;
   description: string;
@@ -14,10 +14,10 @@ export type Project = {
   views: number;
   tags: string[];
   stack: string[];
-  demoUrl: string;
+  demoUrl?: string;
   repoUrl: string;
   featured: boolean;
-};
+}
 
 
 export type ViewMode = "grid" | "list";
