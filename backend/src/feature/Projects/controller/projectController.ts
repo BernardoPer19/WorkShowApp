@@ -33,7 +33,8 @@ export class ProjectController {
   static createProjects = catchAsync(
     async (req: Request, res: Response, _next: NextFunction) => {
       const vali = validateProject(req.body);
-
+      console.log("Usuario en req.user:", req.user);
+console.log("Usuario en req.BODY:", req.body);
       const result = await projectService.createProject({
         title: vali.title,
         description: vali.description,

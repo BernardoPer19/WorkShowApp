@@ -4,11 +4,12 @@ import LoginPage from "./features/auth/pages/LoginPage";
 import AuthContextProvider from "./features/auth/context/AuthContext";
 import Navbar from "./components/Navbar";
 import ProfilePage from "./features/auth/pages/Profile";
-import CategoriesPage from "./pages/categories";
+import CategoriesPage from "./pages/categoryPage/categories";
 import AboutPage from "./pages/About";
 import ProjectPage from "./features/projects/pages/ProjectPage";
-import WebDevelopmentPage from "./pages/developmentPage";
+import WebDevelopmentPage from "./pages/categoryPage/sections/developmentPage";
 import HomePage from "./pages/Landing";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -24,8 +25,9 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/project/:id" element={<ProjectPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
-            <Route path="/categories/web" element={<WebDevelopmentPage />} />
+            <Route path="/category/desarrollo" element={<WebDevelopmentPage />} />
           </Routes>
+          <Footer/>
         </AuthContextProvider>
       </BrowserRouter>
     </>
