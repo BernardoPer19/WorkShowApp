@@ -10,7 +10,7 @@ import type { Category } from "../types/CategoriesMockesTypes";
 
 
 
-export const categories : Category[]= [
+export const categories: Category[] = [
     {
         id: "design",
         name: "diseño",
@@ -31,7 +31,7 @@ export const categories : Category[]= [
             {
                 id: 1,
                 title: "E-commerce Dashboard",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "https://www.geckoboard.com/blog/content/images/2021/01/ecommerce-business-problems-dashboard-geckoboard-2.png",
                 author: "María García",
                 likes: 234,
                 views: 1200,
@@ -39,7 +39,7 @@ export const categories : Category[]= [
             {
                 id: 2,
                 title: "Mobile Banking App",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "https://www.53.com/content/dam/fifth-third/campaign/mobile-app/mobile-banking-hero-phone-image-v2.png",
                 author: "Carlos López",
                 likes: 189,
                 views: 890,
@@ -47,7 +47,7 @@ export const categories : Category[]= [
             {
                 id: 3,
                 title: "Brand Identity Package",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "https://res.cloudinary.com/upwork-cloud/image/upload/c_scale,w_1000/v1709737469/catalog/1672241901620031488/j1y9pphatzzs6xvb3kjp.webp",
                 author: "Ana Sánchez",
                 likes: 156,
                 views: 670,
@@ -72,8 +72,8 @@ export const categories : Category[]= [
         featuredProjects: [
             {
                 id: 4,
-                title: "React Portfolio",
-                image: "/placeholder.svg?height=200&width=300",
+                title: "React Product Management",
+                image: "https://flatlogic.com/assets/new_screenshots/sing-app-react-node-js/1-8f7afd2aa2eb94f948393154a366e9bc6c34abc4504d94a7f3969051e0ed75e2.png",
                 author: "Diego Martín",
                 likes: 298,
                 views: 1450,
@@ -81,7 +81,7 @@ export const categories : Category[]= [
             {
                 id: 5,
                 title: "E-learning Platform",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "https://www.cae.net/wp-content/uploads/2015/12/learning-management-system-empresas-computer-aided-elearning.jpg",
                 author: "Laura Ruiz",
                 likes: 167,
                 views: 920,
@@ -103,11 +103,11 @@ export const categories : Category[]= [
             { name: "Event Photography", count: 1890, growth: "+3%" },
             { name: "Nature Photography", count: 1820, growth: "+7%" },
         ],
-        featuredProjects: [ 
+        featuredProjects: [
             {
                 id: 6,
                 title: "Fashion Portraits",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "https://d3vjn2zm46gms2.cloudfront.net/blogs/2017/10/11004317/gm_36475601_and_gm_33537301-1300x815.jpg",
                 author: "Sofia Chen",
                 likes: 445,
                 views: 2100,
@@ -133,7 +133,7 @@ export const categories : Category[]= [
             {
                 id: 7,
                 title: "SaaS Landing Copy",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "https://framerusercontent.com/images/POJCXBAYNQuDsW4F1Xx0e85myYw.webp",
                 author: "Pablo Ruiz",
                 likes: 234,
                 views: 890,
@@ -159,7 +159,7 @@ export const categories : Category[]= [
             {
                 id: 8,
                 title: "Podcast Intro Music",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "https://res.cloudinary.com/upwork-cloud/image/upload/c_scale,w_1000/v1709843676/catalog/1369045172728152064/pkjsukn9bchh1wchrh0w.webp",
                 author: "Elena Vega",
                 likes: 178,
                 views: 560,
@@ -185,7 +185,7 @@ export const categories : Category[]= [
             {
                 id: 9,
                 title: "Product Animation",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "https://motioncue.com/wp-content/uploads/2024/01/3d-product-animation.jpg",
                 author: "Roberto Silva",
                 likes: 356,
                 views: 1890,

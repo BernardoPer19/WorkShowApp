@@ -17,14 +17,16 @@ import { useProject } from "../hooks/useProjectsApi";
 import type { projectSchemaType } from "../schema/ProjectSchema";
 import { TechnologiesInput } from "./Tags";
 import { ImagesInput } from "./ImagesInput";
+import { useCategories } from "../../../../src/hooks/useCategories";
 
 interface ProjectFormProps {
   onCancel: () => void;
 }
 
 const categories = [
-  { id: "94a3310c-3af3-401a-ab45-283879a620a3", name: "Arte" },
+  { id: "94a3310c-3af3-401a-ab45-283879a620a3", name: "Desarrollo" },
   { id: "c69765a1-6397-4db7-9231-2ec5670e5eab", name: "Fotografia" },
+  { id: "f36feef6-8bfa-4d7c-8904-07f53e3b3652", name: "Arte" },
   { id: "efe56ecc-c7e5-4107-8056-83dec230a33a", name: "Moda" },
 ];
 
@@ -36,6 +38,7 @@ export const ProjectForm = ({ onCancel }: ProjectFormProps) => {
     watch,
     formState: { errors },
   } = useFormContext<projectSchemaType>();
+
 
   const { createProject } = useProject();
 

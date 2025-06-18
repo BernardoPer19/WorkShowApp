@@ -1,11 +1,7 @@
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import {
   Code,
   Palette,
@@ -29,7 +25,8 @@ const featuredProjects = [
     id: 1,
     title: "E-commerce Dashboard",
     description: "Modern dashboard design for online store management",
-    image: "/placeholder.svg?height=300&width=400",
+    image:
+      "https://images.ctfassets.net/dfcvkz6j859j/2r8wSI1BTI0LE4SeHLvGIw/63777a67fadcdaa6581f3c47434c2ad2/Ecommerce-Dashboard-Template-Example.png",
     author: {
       name: "María García",
       avatar: "/placeholder.svg?height=40&width=40",
@@ -41,27 +38,13 @@ const featuredProjects = [
     views: 1200,
     tags: ["Dashboard", "E-commerce", "Figma"],
   },
-  {
-    id: 2,
-    title: "Mobile Banking App",
-    description: "Clean and secure banking application interface",
-    image: "/placeholder.svg?height=400&width=300",
-    author: {
-      name: "Carlos Rodríguez",
-      avatar: "/placeholder.svg?height=40&width=40",
-      username: "carlos_dev",
-    },
-    category: "Mobile Development",
-    likes: 189,
-    comments: 12,
-    views: 890,
-    tags: ["React Native", "Banking", "Security"],
-  },
+  
   {
     id: 3,
     title: "Brand Identity Design",
     description: "Complete branding package for tech startup",
-    image: "/placeholder.svg?height=250&width=400",
+    image:
+      "https://media.coschedule.com/uploads/2023/03/Visual-Identity-design-logos-layout-color-font.png",
     author: {
       name: "Ana López",
       avatar: "/placeholder.svg?height=40&width=40",
@@ -77,7 +60,8 @@ const featuredProjects = [
     id: 4,
     title: "3D Product Visualization",
     description: "Interactive 3D models for product showcase",
-    image: "/placeholder.svg?height=350&width=300",
+    image:
+      "https://cdn.prod.website-files.com/619626b75c00e7698d8d88ca/63d7859cc043ed9d6d8b295d_3D-Product-Rendering-3DSoftware-View.jpg",
     author: {
       name: "Diego Martín",
       avatar: "/placeholder.svg?height=40&width=40",
@@ -93,7 +77,8 @@ const featuredProjects = [
     id: 5,
     title: "Web Development Portfolio",
     description: "Personal portfolio website with animations",
-    image: "/placeholder.svg?height=280&width=400",
+    image:
+      "https://img.freepik.com/premium-psd/stationery-branding-identity-mockup_406637-338.jpg",
     author: {
       name: "Laura Sánchez",
       avatar: "/placeholder.svg?height=40&width=40",
@@ -105,22 +90,7 @@ const featuredProjects = [
     views: 920,
     tags: ["React", "Portfolio", "Animation"],
   },
-  {
-    id: 6,
-    title: "Illustration Series",
-    description: "Digital illustrations for children's book",
-    image: "/placeholder.svg?height=400&width=300",
-    author: {
-      name: "Pablo Ruiz",
-      avatar: "/placeholder.svg?height=40&width=40",
-      username: "pablo_art",
-    },
-    category: "Illustration",
-    likes: 445,
-    comments: 52,
-    views: 2100,
-    tags: ["Illustration", "Children", "Digital Art"],
-  },
+
 ];
 
 const categories = [
@@ -130,7 +100,6 @@ const categories = [
   { name: "Illustration", icon: Pen, count: 543 },
   { name: "Music", icon: Music, count: 321 },
 ];
-
 
 export default function HomePage() {
   return (
@@ -374,7 +343,6 @@ export default function HomePage() {
             </div>
           </section>
 
-
           {/* CTA Section */}
           <section className="py-20 bg-primary text-primary-foreground w-full">
             <div className="container m-auto px-4 text-center">
@@ -386,11 +354,7 @@ export default function HomePage() {
                 proyectos y construyendo su reputación profesional.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="h-12 px-8"
-                >
+                <Button size="lg" variant="secondary" className="h-12 px-8">
                   Crear Cuenta Gratis
                 </Button>
                 <Button
@@ -405,8 +369,6 @@ export default function HomePage() {
             </div>
           </section>
         </main>
-
-
       </div>
     </section>
   );
